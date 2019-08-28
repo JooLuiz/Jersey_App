@@ -16,10 +16,10 @@ public class ListaJSON {
     public List<Usuario> getLista() {
     	List<Usuario> listaUsers = new ArrayList<>();
     	
-    	listaUsers.add(new Usuario("Joao", 21, "Castro"));
-    	listaUsers.add(new Usuario("Thiago", 28, "Pereira"));
-    	listaUsers.add(new Usuario("Luiz Felipe", 20, "Ornelas"));
-    	listaUsers.add(new Usuario("Ricardo", 20, "Monstrão"));
+    	listaUsers.add(new Usuario("Joao", 21, "Castro", 71));
+    	listaUsers.add(new Usuario("Thiago", 28, "Pereira", 72));
+    	listaUsers.add(new Usuario("Luiz Felipe", 20, "Ornelas", 73));
+    	listaUsers.add(new Usuario("Ricardo", 20, "Monstrão", 74));
 
         return listaUsers;
     }
