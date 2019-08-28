@@ -30,8 +30,8 @@ public class UsuarioResource {
 	@GET
 	@Path("user/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response get(@PathParam("id") int id) {
-		return Response.ok().entity(new Usuario("joao", 1, "castro", 1)).build();
+	public Usuario get(@PathParam("id") int id) {
+		return userService.fetchBy(id);
 	}
 	
 	@POST

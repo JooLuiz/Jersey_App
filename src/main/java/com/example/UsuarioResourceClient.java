@@ -31,6 +31,29 @@ public class UsuarioResourceClient {
 		}
 
 	}
+	
+	public Usuario listarUm(long idDoCara) throws SQLException {
+		Usuario clienteRetorno = new Usuario();
+		String sql = "SELECT * FROM usuarios where id = " + idDoCara;
+		try (PreparedStatement stmt = con.prepareStatement(sql)) {
+			stmt.execute();
+			try (ResultSet rs = stmt.getResultSet()) {
+				while (rs.next()) {
+					int id = rs.getInt("id");
+					String nome = rs.getString("nome");
+					String sobrenome = rs.getString("sobrenome");
+					Usuario cliente = new Usuario(nome, 7, sobrenome, id);
+					cliente.setId(id);
+					clienteRetorno = cliente;
+
+				}
+				rs.close();
+			}
+			stmt.close();
+			this.con.close();
+		}
+		return clienteRetorno;
+	}
 
 	public List<Usuario> listar() throws SQLException {
 		List<Usuario> clientes = new ArrayList<>();
