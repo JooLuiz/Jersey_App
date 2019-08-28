@@ -33,8 +33,14 @@ public class UsuarioService {
 		}
 	}
 
-	public void create(Usuario user) {
-		users.add(user);
+	public void create(String nome, String sobrenome, int idade) {
+		try (Connection con = ConnectionDB.getConexaoMySQL()) {
+			UsuarioResourceClient dao = new UsuarioResourceClient(con);
+			Usuario usuario = new Usuario(nome, sobrenome, idade);
+			dao.inserir(usuario);
+		} catch (SQLException e) {
+			throw new RuntimeException(e.getMessage());
+		}
 	}
 
 	public void update(Usuario user) {

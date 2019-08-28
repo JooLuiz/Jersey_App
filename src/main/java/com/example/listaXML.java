@@ -19,10 +19,10 @@ public class listaXML {
 		
 		List<Usuario> listaUsers = new ArrayList<>();
     	
-    	listaUsers.add(new Usuario("Joao", 21, "Castro", 56));
-    	listaUsers.add(new Usuario("Thiago", 28, "Pereira", 57));
-    	listaUsers.add(new Usuario("Luiz Felipe", 20, "Ornelas", 58));
-    	listaUsers.add(new Usuario("Ricardo", 20, "Monstrão", 59));
+    	listaUsers.add(new Usuario("Joao", "Castro", 56));
+    	listaUsers.add(new Usuario("Thiago", "Pereira", 57));
+    	listaUsers.add(new Usuario("Luiz Felipe", "Ornelas", 58));
+    	listaUsers.add(new Usuario("Ricardo", "Monstrão", 59));
     	
     	System.out.println(listaUsers);
     	

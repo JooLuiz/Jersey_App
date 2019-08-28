@@ -35,12 +35,13 @@ public class UsuarioResource {
 	}
 	
 	@POST
+	@Path("create")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response create(Usuario user) {
-		// create notification
-		userService.create(user);
-		return Response.status(Status.CREATED).build();
+	public Response create(String body) {
+		System.out.println(body);
+		 
+        return Response.status(200).entity(body).build();
 	}
 	
 	@PUT

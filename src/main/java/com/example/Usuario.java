@@ -10,8 +10,7 @@ public class Usuario {
 	int idade;
 	String sobrenome;
 	
-	public Usuario(String nome, int idade, String sobrenome, long id){
-		this.id = id;
+	public Usuario(String nome, String sobrenome, int idade){
 		this.nome = nome;
 		this.idade = idade;
 		this.sobrenome = sobrenome;

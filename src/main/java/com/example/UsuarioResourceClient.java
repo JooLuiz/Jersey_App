@@ -42,7 +42,7 @@ public class UsuarioResourceClient {
 					int id = rs.getInt("id");
 					String nome = rs.getString("nome");
 					String sobrenome = rs.getString("sobrenome");
-					Usuario cliente = new Usuario(nome, 7, sobrenome, id);
+					Usuario cliente = new Usuario(nome, sobrenome, 7);
 					cliente.setId(id);
 					clienteRetorno = cliente;
 
@@ -65,7 +65,7 @@ public class UsuarioResourceClient {
 					int id = rs.getInt("id");
 					String nome = rs.getString("nome");
 					String sobrenome = rs.getString("sobrenome");
-					Usuario cliente = new Usuario(nome, 7, sobrenome, id);
+					Usuario cliente = new Usuario(nome, sobrenome, 7);
 					cliente.setId(id);
 					clientes.add(cliente);
 
