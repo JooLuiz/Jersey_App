@@ -38,18 +38,18 @@ public class UsuarioResource {
 	@Path("create")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response create(String body) {
-		System.out.println(body);
+	public Response create(Usuario user) {
+		userService.create(user);
 		 
-        return Response.status(200).entity(body).build();
+        return Response.status(200).entity("User created successfully !!").build();
 	}
 	
 	@PUT
 	@Path("/user/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response update(@PathParam("id") long id, Usuario user) {
-		userService.update(user);
-		return Response.noContent().build();
+		userService.update(id, user);
+		return Response.status(200).entity("User update successfully !!").build();
 	}
 
 	@DELETE

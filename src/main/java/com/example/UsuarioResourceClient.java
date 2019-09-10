@@ -16,12 +16,13 @@ public class UsuarioResourceClient {
 
 	}
 
-	public void inserir(Usuario cliente) {
-		String sql = "INSERT INTO usuarios (nome, sobrenome) VALUES (?, ?)";
+	public void inserir(Usuario usuario) {
+		String sql = "INSERT INTO usuarios (nome, sobrenome, idade) VALUES (?, ?, ?)";
 
 		try (PreparedStatement stmt = con.prepareStatement(sql)) {
-			stmt.setString(1, cliente.getNome());
-			stmt.setString(2, cliente.getSobrenome());
+			stmt.setString(1, usuario.getNome());
+			stmt.setString(2, usuario.getSobrenome());
+			stmt.setInt(3, usuario.getIdade());
 			stmt.execute();
 			stmt.close();
 			this.con.close();
@@ -32,9 +33,9 @@ public class UsuarioResourceClient {
 
 	}
 	
-	public Usuario listarUm(long idDoCara) throws SQLException {
-		Usuario clienteRetorno = new Usuario();
-		String sql = "SELECT * FROM usuarios where id = " + idDoCara;
+	public Usuario listarUm(long usuarioid) throws SQLException {
+		Usuario usuarioRetorno = new Usuario();
+		String sql = "SELECT * FROM usuarios where id = " + usuarioid;
 		try (PreparedStatement stmt = con.prepareStatement(sql)) {
 			stmt.execute();
 			try (ResultSet rs = stmt.getResultSet()) {
@@ -42,21 +43,20 @@ public class UsuarioResourceClient {
 					int id = rs.getInt("id");
 					String nome = rs.getString("nome");
 					String sobrenome = rs.getString("sobrenome");
-					Usuario cliente = new Usuario(nome, sobrenome, 7);
-					cliente.setId(id);
-					clienteRetorno = cliente;
-
+					Usuario usuario = new Usuario(nome, sobrenome, 7);
+					usuario.setId(id);
+					usuarioRetorno = usuario;
 				}
 				rs.close();
 			}
 			stmt.close();
 			this.con.close();
 		}
-		return clienteRetorno;
+		return usuarioRetorno;
 	}
 
 	public List<Usuario> listar() throws SQLException {
-		List<Usuario> clientes = new ArrayList<>();
+		List<Usuario> usuarios = new ArrayList<>();
 		String sql = "SELECT * FROM usuarios";
 		try (PreparedStatement stmt = con.prepareStatement(sql)) {
 			stmt.execute();
@@ -65,25 +65,25 @@ public class UsuarioResourceClient {
 					int id = rs.getInt("id");
 					String nome = rs.getString("nome");
 					String sobrenome = rs.getString("sobrenome");
-					Usuario cliente = new Usuario(nome, sobrenome, 7);
-					cliente.setId(id);
-					clientes.add(cliente);
-
+					Usuario usuario = new Usuario(nome, sobrenome, 7);
+					usuario.setId(id);
+					usuarios.add(usuario);
 				}
 				rs.close();
 			}
 			stmt.close();
 			this.con.close();
 		}
-		return clientes;
+		return usuarios;
 	}
 
-	public void atualizar(Usuario cliente) throws SQLException {
-		String sql = "UPDATE usuarios SET nome = ?, sobrenome = ? WHERE id = ?";
+	public void atualizar(long id, Usuario usuario) throws SQLException {
+		String sql = "UPDATE usuarios SET nome = ?, sobrenome = ?, idade = ? WHERE id = ?";
 		try (PreparedStatement stmt = con.prepareStatement(sql)) {
-			stmt.setString(1, cliente.getNome());
-			stmt.setString(2, cliente.getSobrenome());
-			stmt.setInt(3, (int) cliente.getId());
+			stmt.setString(1, usuario.getNome());
+			stmt.setString(2, usuario.getSobrenome());
+			stmt.setInt(3, usuario.getIdade());
+			stmt.setInt(4, (int)id);
 			stmt.execute();
 			stmt.close();
 			this.con.close();

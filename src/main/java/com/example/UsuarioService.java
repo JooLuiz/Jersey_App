@@ -14,9 +14,9 @@ public class UsuarioService {
 	public List<Usuario> fetchAll() {
 		try (Connection con = ConnectionDB.getConexaoMySQL()) {
 			UsuarioResourceClient dao = new UsuarioResourceClient(con);
-			List<Usuario> clientes = dao.listar();
+			List<Usuario> usuarios = dao.listar();
 			
-			return clientes;
+			return usuarios;
 		} catch (SQLException e) {
 			throw new RuntimeException(e.getMessage());
 }
@@ -25,34 +25,40 @@ public class UsuarioService {
 	public Usuario fetchBy(long id) throws NotFoundException {
 		try (Connection con = ConnectionDB.getConexaoMySQL()) {
 			UsuarioResourceClient dao = new UsuarioResourceClient(con);
-			Usuario cliente = dao.listarUm(id);
+			Usuario usuario = dao.listarUm(id);
 			
-			return cliente;
+			return usuario;
 		} catch (SQLException e) {
 			throw new RuntimeException(e.getMessage());
 		}
 	}
 
-	public void create(String nome, String sobrenome, int idade) {
+	public void create(Usuario usuario) {
 		try (Connection con = ConnectionDB.getConexaoMySQL()) {
 			UsuarioResourceClient dao = new UsuarioResourceClient(con);
-			Usuario usuario = new Usuario(nome, sobrenome, idade);
+			System.out.println(dao);
 			dao.inserir(usuario);
 		} catch (SQLException e) {
 			throw new RuntimeException(e.getMessage());
 		}
 	}
 
-	public void update(Usuario user) {
-		for (Usuario user2 : users) {
-			if (user.getId() == user2.getId()) {
-				users.remove(user2);
-				users.add(user);
-			}
+	public void update(long id, Usuario usuario) {
+		try (Connection con = ConnectionDB.getConexaoMySQL()) {
+			UsuarioResourceClient dao = new UsuarioResourceClient(con);
+			dao.atualizar(id, usuario);
+		} catch (SQLException e) {
+			throw new RuntimeException(e.getMessage());
 		}
 	}
 
 	public void delete(long id) throws NotFoundException {
-		// delete operation
+		try (Connection con = ConnectionDB.getConexaoMySQL()) {
+			UsuarioResourceClient dao = new UsuarioResourceClient(con);
+			int idUsuario = (int)id;
+			dao.excluir(idUsuario);
+		} catch (SQLException e) {
+			throw new RuntimeException(e.getMessage());
+		}
 	}
 }

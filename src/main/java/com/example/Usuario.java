@@ -2,7 +2,6 @@ package com.example;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
 public class Usuario {
 	
 	long id;
