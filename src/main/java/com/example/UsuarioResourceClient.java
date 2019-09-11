@@ -7,12 +7,21 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
 public class UsuarioResourceClient {
 
 	private Connection con;
+	private EntityManagerFactory emf;
+	private EntityManager em;
 
 	public UsuarioResourceClient(Connection con) {
 		this.con = con;
+		emf = Persistence.createEntityManagerFactory("my-persistence-unit");
+		em = emf.createEntityManager();
+		em.getTransaction().begin();
 
 	}
 
@@ -25,6 +34,8 @@ public class UsuarioResourceClient {
 			stmt.setInt(3, usuario.getIdade());
 			stmt.execute();
 			stmt.close();
+			em.getTransaction().commit();
+			em.close();
 			this.con.close();
 			System.out.println("Dados inseridos com sucesso!");
 		} catch (SQLException e) {
@@ -50,6 +61,7 @@ public class UsuarioResourceClient {
 				rs.close();
 			}
 			stmt.close();
+			em.close();
 			this.con.close();
 		}
 		return usuarioRetorno;
@@ -72,6 +84,7 @@ public class UsuarioResourceClient {
 				rs.close();
 			}
 			stmt.close();
+			em.close();
 			this.con.close();
 		}
 		return usuarios;
@@ -86,6 +99,8 @@ public class UsuarioResourceClient {
 			stmt.setInt(4, (int)id);
 			stmt.execute();
 			stmt.close();
+			em.getTransaction().commit();
+			em.close();
 			this.con.close();
 			System.out.println("Atualizado com Sucesso!");
 		}
@@ -101,6 +116,8 @@ public class UsuarioResourceClient {
 			stmt.setLong(1, id);
 			stmt.execute();
 			stmt.close();
+			em.getTransaction().commit();
+			em.close();
 			this.con.close();
 			System.out.println("Excluido com sucesso!");
 		}

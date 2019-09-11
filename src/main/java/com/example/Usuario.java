@@ -1,12 +1,24 @@
 package com.example;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.xml.bind.annotation.XmlRootElement;
 
+@Entity
 public class Usuario {
 	
+	@Id
+    @Column(name = "id", updatable = false, nullable = false)
 	long id;
+	
+	@Column(name = "nome")
 	String nome;
+	
+	@Column(name = "idade")
 	int idade;
+	
+	@Column(name = "sobrenome")
 	String sobrenome;
 	
 	public Usuario(String nome, String sobrenome, int idade){
