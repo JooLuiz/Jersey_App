@@ -37,50 +37,27 @@ public class UsuarioResourceClient {
 
 	}
 	
-	public Usuario listarUm(long usuarioid) throws SQLException {
-		Usuario usuarioRetorno = new Usuario();
-		String sql = "SELECT * FROM usuarios where id = " + usuarioid;
-		try (PreparedStatement stmt = con.prepareStatement(sql)) {
-			stmt.execute();
-			try (ResultSet rs = stmt.getResultSet()) {
-				while (rs.next()) {
-					int id = rs.getInt("id");
-					String nome = rs.getString("nome");
-					String sobrenome = rs.getString("sobrenome");
-					Usuario usuario = new Usuario(nome, sobrenome, 7);
-					usuario.setId(id);
-					usuarioRetorno = usuario;
-				}
-				rs.close();
-			}
-			stmt.close();
-			em.close();
-			this.con.close();
+	public Usuario listarUm(long id) throws SQLException {
+		try {
+			Usuario user = em.find(Usuario.class, id);
+			System.out.println("Lista um com Sucesso!");
+			return user;
+		} catch(Exception e){
+			throw new RuntimeException(e);
 		}
-		return usuarioRetorno;
+	}
+	
+	public List<Usuario> getAll(){
+		return (List<Usuario>) em.createQuery("Select t from usuarios t").getResultList();
 	}
 
 	public List<Usuario> listar() throws SQLException {
-		List<Usuario> usuarios = new ArrayList<>();
-		String sql = "SELECT * FROM usuarios";
-		try (PreparedStatement stmt = con.prepareStatement(sql)) {
-			stmt.execute();
-			try (ResultSet rs = stmt.getResultSet()) {
-				while (rs.next()) {
-					int id = rs.getInt("id");
-					String nome = rs.getString("nome");
-					String sobrenome = rs.getString("sobrenome");
-					Usuario usuario = new Usuario(nome, sobrenome, 7);
-					usuario.setId(id);
-					usuarios.add(usuario);
-				}
-				rs.close();
-			}
-			stmt.close();
-			em.close();
-			this.con.close();
+		try {
+			List<Usuario> usuarios = getAll();
+			return usuarios;
+		}catch(Exception e){
+			throw new RuntimeException(e);
 		}
-		return usuarios;
 	}
 
 	public void atualizar(long id, Usuario usuario) throws SQLException {
@@ -113,7 +90,7 @@ public class UsuarioResourceClient {
 			em.close();
 			System.out.println("Excluido com sucesso!");
 		}catch(Exception e){
-			new RuntimeException(e);
+			throw new RuntimeException(e);
 		}
 
 	}
