@@ -55,8 +55,7 @@ public class UsuarioService {
 	public void delete(long id) throws NotFoundException {
 		try (Connection con = ConnectionDB.getConexaoMySQL()) {
 			UsuarioResourceClient dao = new UsuarioResourceClient(con);
-			int idUsuario = (int)id;
-			dao.excluir(idUsuario);
+			dao.excluir(id);
 		} catch (SQLException e) {
 			throw new RuntimeException(e.getMessage());
 		}

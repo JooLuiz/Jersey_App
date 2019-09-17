@@ -9,7 +9,9 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
 
 public class UsuarioResourceClient {
 
@@ -22,7 +24,6 @@ public class UsuarioResourceClient {
 		emf = Persistence.createEntityManagerFactory("my-persistence-unit");
 		em = emf.createEntityManager();
 		em.getTransaction().begin();
-		Usuario usuarioPadrao = new Usuario();
 	}
 
 	public void inserir(Usuario usuario) {
@@ -30,9 +31,8 @@ public class UsuarioResourceClient {
 			em.persist(usuario);
 			em.getTransaction().commit();
 			em.close();
-			System.out.println("Dados inseridos com sucesso!");
 		} catch (Exception e) {
-			throw new RuntimeException(e);
+			e.printStackTrace();
 		}
 
 	}
@@ -40,24 +40,26 @@ public class UsuarioResourceClient {
 	public Usuario listarUm(long id) throws SQLException {
 		try {
 			Usuario user = em.find(Usuario.class, id);
-			System.out.println("Lista um com Sucesso!");
+			em.close();
 			return user;
 		} catch(Exception e){
-			throw new RuntimeException(e);
+			e.printStackTrace();
+			return null;
 		}
-	}
-	
-	public List<Usuario> getAll(){
-		return (List<Usuario>) em.createQuery("Select t from usuarios t").getResultList();
 	}
 
 	public List<Usuario> listar() throws SQLException {
+		List<Usuario> users = new ArrayList<>();
+		String query = "SELECT u FROM Usuario u WHERE u.id IS NOT NULL";
+		TypedQuery<Usuario> tq = em.createQuery(query, Usuario.class);
 		try {
-			List<Usuario> usuarios = getAll();
-			return usuarios;
-		}catch(Exception e){
-			throw new RuntimeException(e);
+			users = tq.getResultList();
+			em.close();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+
+		return users;
 	}
 
 	public void atualizar(long id, Usuario usuario) throws SQLException {
@@ -69,28 +71,23 @@ public class UsuarioResourceClient {
 			em.merge(user);
 			em.getTransaction().commit();
 			em.close();
-			System.out.println("Atualizado com Sucesso!");
 		}catch(Exception e){
-			throw new RuntimeException(e);
+			e.printStackTrace();
 		}
 	}
 
-	public void excluir(int id) throws SQLException {
+	public void excluir(long id) throws SQLException {
 		if (id == 0) {
 			throw new IllegalStateException("Id da conta nao deve ser nula.");
 		}
 
 		try {
-			System.out.println(id);
 			Usuario user = em.find(Usuario.class, id);
-			System.out.println(user);
 			em.remove(user);
-			System.out.println(em.find(Usuario.class,  id));
 			em.getTransaction().commit();
 			em.close();
-			System.out.println("Excluido com sucesso!");
 		}catch(Exception e){
-			throw new RuntimeException(e);
+			e.printStackTrace();
 		}
 
 	}
