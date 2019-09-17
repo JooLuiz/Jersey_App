@@ -9,7 +9,9 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
 
 public class UsuarioResourceClient {
 
@@ -22,104 +24,70 @@ public class UsuarioResourceClient {
 		emf = Persistence.createEntityManagerFactory("my-persistence-unit");
 		em = emf.createEntityManager();
 		em.getTransaction().begin();
-
 	}
 
 	public void inserir(Usuario usuario) {
-		String sql = "INSERT INTO usuarios (nome, sobrenome, idade) VALUES (?, ?, ?)";
-
-		try (PreparedStatement stmt = con.prepareStatement(sql)) {
-			stmt.setString(1, usuario.getNome());
-			stmt.setString(2, usuario.getSobrenome());
-			stmt.setInt(3, usuario.getIdade());
-			stmt.execute();
-			stmt.close();
+		try {
+			em.persist(usuario);
 			em.getTransaction().commit();
 			em.close();
-			this.con.close();
-			System.out.println("Dados inseridos com sucesso!");
-		} catch (SQLException e) {
-			throw new RuntimeException(e);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 	}
 	
-	public Usuario listarUm(long usuarioid) throws SQLException {
-		Usuario usuarioRetorno = new Usuario();
-		String sql = "SELECT * FROM usuarios where id = " + usuarioid;
-		try (PreparedStatement stmt = con.prepareStatement(sql)) {
-			stmt.execute();
-			try (ResultSet rs = stmt.getResultSet()) {
-				while (rs.next()) {
-					int id = rs.getInt("id");
-					String nome = rs.getString("nome");
-					String sobrenome = rs.getString("sobrenome");
-					Usuario usuario = new Usuario(nome, sobrenome, 7);
-					usuario.setId(id);
-					usuarioRetorno = usuario;
-				}
-				rs.close();
-			}
-			stmt.close();
+	public Usuario listarUm(long id) throws SQLException {
+		try {
+			Usuario user = em.find(Usuario.class, id);
 			em.close();
-			this.con.close();
+			return user;
+		} catch(Exception e){
+			e.printStackTrace();
+			return null;
 		}
-		return usuarioRetorno;
 	}
 
 	public List<Usuario> listar() throws SQLException {
-		List<Usuario> usuarios = new ArrayList<>();
-		String sql = "SELECT * FROM usuarios";
-		try (PreparedStatement stmt = con.prepareStatement(sql)) {
-			stmt.execute();
-			try (ResultSet rs = stmt.getResultSet()) {
-				while (rs.next()) {
-					int id = rs.getInt("id");
-					String nome = rs.getString("nome");
-					String sobrenome = rs.getString("sobrenome");
-					Usuario usuario = new Usuario(nome, sobrenome, 7);
-					usuario.setId(id);
-					usuarios.add(usuario);
-				}
-				rs.close();
-			}
-			stmt.close();
+		List<Usuario> users = new ArrayList<>();
+		String query = "SELECT u FROM Usuario u WHERE u.id IS NOT NULL";
+		TypedQuery<Usuario> tq = em.createQuery(query, Usuario.class);
+		try {
+			users = tq.getResultList();
 			em.close();
-			this.con.close();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		return usuarios;
+
+		return users;
 	}
 
 	public void atualizar(long id, Usuario usuario) throws SQLException {
-		String sql = "UPDATE usuarios SET nome = ?, sobrenome = ?, idade = ? WHERE id = ?";
-		try (PreparedStatement stmt = con.prepareStatement(sql)) {
-			stmt.setString(1, usuario.getNome());
-			stmt.setString(2, usuario.getSobrenome());
-			stmt.setInt(3, usuario.getIdade());
-			stmt.setInt(4, (int)id);
-			stmt.execute();
-			stmt.close();
+		try {
+			Usuario user = em.find(Usuario.class, id);
+			user.setNome(usuario.nome);
+			user.setSobrenome(usuario.sobrenome);
+			user.setIdade(usuario.idade);
+			em.merge(user);
 			em.getTransaction().commit();
 			em.close();
-			this.con.close();
-			System.out.println("Atualizado com Sucesso!");
+		}catch(Exception e){
+			e.printStackTrace();
 		}
 	}
 
-	public void excluir(int id) throws SQLException {
+	public void excluir(long id) throws SQLException {
 		if (id == 0) {
 			throw new IllegalStateException("Id da conta nao deve ser nula.");
 		}
 
-		String sql = "DELETE FROM usuarios WHERE id = ?";
-		try (PreparedStatement stmt = con.prepareStatement(sql)) {
-			stmt.setLong(1, id);
-			stmt.execute();
-			stmt.close();
+		try {
+			Usuario user = em.find(Usuario.class, id);
+			em.remove(user);
 			em.getTransaction().commit();
 			em.close();
-			this.con.close();
-			System.out.println("Excluido com sucesso!");
+		}catch(Exception e){
+			e.printStackTrace();
 		}
 
 	}
