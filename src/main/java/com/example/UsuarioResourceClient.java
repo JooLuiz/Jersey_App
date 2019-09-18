@@ -1,26 +1,20 @@
 package com.example;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 
 public class UsuarioResourceClient {
 
-	private Connection con;
 	private EntityManagerFactory emf;
 	private EntityManager em;
 
-	public UsuarioResourceClient(Connection con) {
-		this.con = con;
+	public UsuarioResourceClient() {
 		emf = Persistence.createEntityManagerFactory("my-persistence-unit");
 		em = emf.createEntityManager();
 		em.getTransaction().begin();
@@ -68,6 +62,8 @@ public class UsuarioResourceClient {
 			user.setNome(usuario.nome);
 			user.setSobrenome(usuario.sobrenome);
 			user.setIdade(usuario.idade);
+			user.setUsuario(usuario.usuario);
+			user.setSenha(usuario.senha);
 			em.merge(user);
 			em.getTransaction().commit();
 			em.close();

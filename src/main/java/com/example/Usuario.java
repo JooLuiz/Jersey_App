@@ -3,7 +3,6 @@ package com.example;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 public class Usuario {
@@ -14,6 +13,12 @@ public class Usuario {
 	
 	@Column(name = "nome")
 	String nome;
+
+	@Column(name = "usuario")
+	String usuario;
+	
+	@Column(name = "senha")
+	String senha;
 	
 	@Column(name = "idade")
 	int idade;
@@ -63,6 +68,22 @@ public class Usuario {
 
 	public void setSobrenome(String sobrenome) {
 		this.sobrenome = sobrenome;
+	}
+	
+	public String getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 	
 }

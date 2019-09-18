@@ -1,63 +1,61 @@
 package com.example;
 
-import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.NotFoundException;
 
 public class UsuarioService {
-
-	private List<Usuario> users = new ArrayList<Usuario>();
-
+	
 	public List<Usuario> fetchAll() {
-		try (Connection con = ConnectionDB.getConexaoMySQL()) {
-			UsuarioResourceClient dao = new UsuarioResourceClient(con);
+		try {
+			UsuarioResourceClient dao = new UsuarioResourceClient();
 			List<Usuario> usuarios = dao.listar();
 			
 			return usuarios;
-		} catch (SQLException e) {
-			throw new RuntimeException(e.getMessage());
-}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	public Usuario fetchBy(long id) throws NotFoundException {
-		try (Connection con = ConnectionDB.getConexaoMySQL()) {
-			UsuarioResourceClient dao = new UsuarioResourceClient(con);
+		try {
+			UsuarioResourceClient dao = new UsuarioResourceClient();
 			Usuario usuario = dao.listarUm(id);
 			
 			return usuario;
-		} catch (SQLException e) {
-			throw new RuntimeException(e.getMessage());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
 		}
 	}
 
 	public void create(Usuario usuario) {
-		try (Connection con = ConnectionDB.getConexaoMySQL()) {
-			UsuarioResourceClient dao = new UsuarioResourceClient(con);
+		try {
+			UsuarioResourceClient dao = new UsuarioResourceClient();
 			System.out.println(dao);
 			dao.inserir(usuario);
-		} catch (SQLException e) {
-			throw new RuntimeException(e.getMessage());
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
 	public void update(long id, Usuario usuario) {
-		try (Connection con = ConnectionDB.getConexaoMySQL()) {
-			UsuarioResourceClient dao = new UsuarioResourceClient(con);
+		try {
+			UsuarioResourceClient dao = new UsuarioResourceClient();
 			dao.atualizar(id, usuario);
 		} catch (SQLException e) {
-			throw new RuntimeException(e.getMessage());
+			e.printStackTrace();
 		}
 	}
 
 	public void delete(long id) throws NotFoundException {
-		try (Connection con = ConnectionDB.getConexaoMySQL()) {
-			UsuarioResourceClient dao = new UsuarioResourceClient(con);
+		try {
+			UsuarioResourceClient dao = new UsuarioResourceClient();
 			dao.excluir(id);
-		} catch (SQLException e) {
-			throw new RuntimeException(e.getMessage());
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 }
