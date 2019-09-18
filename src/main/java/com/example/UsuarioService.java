@@ -5,11 +5,29 @@ import java.util.List;
 
 import javax.ws.rs.NotFoundException;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 public class UsuarioService {
+	
+	private UsuarioResourceClient dao;
+	private ObjectMapper mapper ;
+	
+	public UsuarioService(){
+		dao = new UsuarioResourceClient();
+		mapper = new ObjectMapper();
+	}
+	public void login(String body){
+		try{
+			Login login = mapper.readValue(body, Login.class);
+			
+			dao.login(login.usuario, login.senha);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
 	
 	public List<Usuario> fetchAll() {
 		try {
-			UsuarioResourceClient dao = new UsuarioResourceClient();
 			List<Usuario> usuarios = dao.listar();
 			
 			return usuarios;
@@ -21,7 +39,6 @@ public class UsuarioService {
 
 	public Usuario fetchBy(long id) throws NotFoundException {
 		try {
-			UsuarioResourceClient dao = new UsuarioResourceClient();
 			Usuario usuario = dao.listarUm(id);
 			
 			return usuario;
@@ -33,8 +50,6 @@ public class UsuarioService {
 
 	public void create(Usuario usuario) {
 		try {
-			UsuarioResourceClient dao = new UsuarioResourceClient();
-			System.out.println(dao);
 			dao.inserir(usuario);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -43,7 +58,6 @@ public class UsuarioService {
 
 	public void update(long id, Usuario usuario) {
 		try {
-			UsuarioResourceClient dao = new UsuarioResourceClient();
 			dao.atualizar(id, usuario);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -52,7 +66,6 @@ public class UsuarioService {
 
 	public void delete(long id) throws NotFoundException {
 		try {
-			UsuarioResourceClient dao = new UsuarioResourceClient();
 			dao.excluir(id);
 		} catch (Exception e) {
 			e.printStackTrace();
