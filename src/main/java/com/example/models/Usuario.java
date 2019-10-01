@@ -1,4 +1,4 @@
-package com.example;
+package com.example.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,22 +9,22 @@ public class Usuario {
 	
 	@Id
     @Column(name = "id", updatable = false, nullable = false)
-	long id;
+	public long id;
 	
 	@Column(name = "nome")
-	String nome;
+	public String nome;
 
 	@Column(name = "usuario")
-	String usuario;
+	public String usuario;
 	
 	@Column(name = "senha")
-	String senha;
+	public String senha;
 	
 	@Column(name = "idade")
-	int idade;
+	public int idade;
 	
 	@Column(name = "sobrenome")
-	String sobrenome;
+	public String sobrenome;
 	
 	public Usuario(String nome, String sobrenome, int idade){
 		this.nome = nome;

@@ -13,22 +13,24 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.example.models.Usuario;
+
 @Path("/users")
 public class UsuarioResource {
 
-	private UsuarioService userService = new UsuarioService();
+	private UsuarioResourceClient UsuarioController = new UsuarioResourceClient();
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Usuario> fetchAll() {
-		return userService.fetchAll();
+		return UsuarioController.listar();
 	}
 
 	@GET
 	@Path("user/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Usuario get(@PathParam("id") int id) {
-		return userService.fetchBy(id);
+		return UsuarioController.listarUm(id);
 	}
 	
 	@POST
@@ -36,7 +38,8 @@ public class UsuarioResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response create(Usuario user) {
-		userService.create(user);
+		System.out.println("TO AQUI");
+		UsuarioController.inserir(user);
 		 
         return Response.status(200).entity("User created successfully !!").build();
 	}
@@ -45,14 +48,14 @@ public class UsuarioResource {
 	@Path("/user/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response update(@PathParam("id") long id, Usuario user) {
-		userService.update(id, user);
+		UsuarioController.atualizar(id, user);
 		return Response.status(200).entity("User update successfully !!").build();
 	}
 
 	@DELETE
 	@Path("/user/{id}")
 	public Response delete(@PathParam("id") long id) {
-		userService.delete(id);
+		UsuarioController.excluir(id);
 		return Response.status(202).entity("User deleted successfully !!").build();
 	}
 }

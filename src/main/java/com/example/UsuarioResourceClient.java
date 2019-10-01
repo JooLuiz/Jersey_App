@@ -15,6 +15,8 @@ import javax.ws.rs.core.Response;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 
+import com.example.models.Usuario;
+
 public class UsuarioResourceClient {
 
 	private EntityManagerFactory emf;
@@ -29,17 +31,7 @@ public class UsuarioResourceClient {
 		em.getTransaction().begin();
 	}
 	
-	public void inserir(Usuario usuario) {
-			try {
-				em.persist(usuario);
-				em.getTransaction().commit();
-				em.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-	}
-	
-	public Usuario listarUm(long id) throws SQLException {
+	public Usuario listarUm(long id) {
 		try {
 			Usuario user = em.find(Usuario.class, id);
 			em.close();
@@ -50,7 +42,7 @@ public class UsuarioResourceClient {
 		}
 	}
 
-	public List<Usuario> listar() throws SQLException {
+	public List<Usuario> listar() {
 		List<Usuario> users = new ArrayList<>();
 		String query = "SELECT u FROM Usuario u WHERE u.id IS NOT NULL";
 		TypedQuery<Usuario> tq = em.createQuery(query, Usuario.class);
@@ -63,8 +55,18 @@ public class UsuarioResourceClient {
 
 		return users;
 	}
+	
+	public void inserir(Usuario usuario) {
+		try {
+			em.persist(usuario);
+			em.getTransaction().commit();
+			em.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
-	public void atualizar(long id, Usuario usuario) throws SQLException {
+	public void atualizar(long id, Usuario usuario) {
 		try {
 			Usuario user = em.find(Usuario.class, id);
 			user.setNome(usuario.nome);
@@ -80,7 +82,7 @@ public class UsuarioResourceClient {
 		}
 	}
 
-	public void excluir(long id) throws SQLException {
+	public void excluir(long id) {
 		if (id == 0) {
 			throw new IllegalStateException("Id da conta nao deve ser nula.");
 		}
