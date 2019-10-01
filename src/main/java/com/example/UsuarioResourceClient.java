@@ -1,40 +1,66 @@
 package com.example;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.core.Response;
+
+import org.glassfish.jersey.client.ClientConfig;
+import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 
 public class UsuarioResourceClient {
 
-	private Connection con;
 	private EntityManagerFactory emf;
 	private EntityManager em;
+	private HttpAuthenticationFeature feature;
+	private ClientConfig clientConfig;
+	private Client client;
+	private String username;
+	private String password;
 
-	public UsuarioResourceClient(Connection con) {
-		this.con = con;
+	public UsuarioResourceClient() {
 		emf = Persistence.createEntityManagerFactory("my-persistence-unit");
 		em = emf.createEntityManager();
 		em.getTransaction().begin();
+		clientConfig = new ClientConfig();
+		clientConfig.register(Usuario.class);
+		client = ClientBuilder.newClient(clientConfig);
+		feature = HttpAuthenticationFeature.basicBuilder().build();
+	}
+	
+	public void login(String username, String password){
+		Response response = client.target("http://localhost:8080/users/login").request()
+			    .property("username", username)
+			    .property("senha", password).get();
+		System.out.println(response);
+		if(response.getStatus() == 200)
+	    {
+			this.password = password;
+			this.username = username;
+	    }
 	}
 
 	public void inserir(Usuario usuario) {
-		try {
-			em.persist(usuario);
-			em.getTransaction().commit();
-			em.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
+		Response response = client.target("http://localhost:8080/rest/homer/contact").request()
+			    .property("username", this.username)
+			    .property("senha", this.password).get();
+		if(response.getStatus() == 200)
+	    {
+			try {
+				em.persist(usuario);
+				em.getTransaction().commit();
+				em.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+	    }
 	}
 	
 	public Usuario listarUm(long id) throws SQLException {
@@ -68,6 +94,8 @@ public class UsuarioResourceClient {
 			user.setNome(usuario.nome);
 			user.setSobrenome(usuario.sobrenome);
 			user.setIdade(usuario.idade);
+			user.setUsuario(usuario.usuario);
+			user.setSenha(usuario.senha);
 			em.merge(user);
 			em.getTransaction().commit();
 			em.close();

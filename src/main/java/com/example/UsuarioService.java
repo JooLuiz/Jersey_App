@@ -1,63 +1,75 @@
 package com.example;
 
-import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.NotFoundException;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 public class UsuarioService {
-
-	private List<Usuario> users = new ArrayList<Usuario>();
-
+	
+	private UsuarioResourceClient dao;
+	private ObjectMapper mapper ;
+	
+	public UsuarioService(){
+		dao = new UsuarioResourceClient();
+		mapper = new ObjectMapper();
+	}
+	public void login(String body){
+		try{
+			System.out.println(body);
+			Login login = mapper.readValue(body, Login.class);
+			System.out.println(login);
+			dao.login(login.usuario, login.senha);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
 	public List<Usuario> fetchAll() {
-		try (Connection con = ConnectionDB.getConexaoMySQL()) {
-			UsuarioResourceClient dao = new UsuarioResourceClient(con);
+		try {
 			List<Usuario> usuarios = dao.listar();
 			
 			return usuarios;
-		} catch (SQLException e) {
-			throw new RuntimeException(e.getMessage());
-}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	public Usuario fetchBy(long id) throws NotFoundException {
-		try (Connection con = ConnectionDB.getConexaoMySQL()) {
-			UsuarioResourceClient dao = new UsuarioResourceClient(con);
+		try {
 			Usuario usuario = dao.listarUm(id);
 			
 			return usuario;
-		} catch (SQLException e) {
-			throw new RuntimeException(e.getMessage());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
 		}
 	}
 
 	public void create(Usuario usuario) {
-		try (Connection con = ConnectionDB.getConexaoMySQL()) {
-			UsuarioResourceClient dao = new UsuarioResourceClient(con);
-			System.out.println(dao);
+		try {
 			dao.inserir(usuario);
-		} catch (SQLException e) {
-			throw new RuntimeException(e.getMessage());
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
 	public void update(long id, Usuario usuario) {
-		try (Connection con = ConnectionDB.getConexaoMySQL()) {
-			UsuarioResourceClient dao = new UsuarioResourceClient(con);
+		try {
 			dao.atualizar(id, usuario);
 		} catch (SQLException e) {
-			throw new RuntimeException(e.getMessage());
+			e.printStackTrace();
 		}
 	}
 
 	public void delete(long id) throws NotFoundException {
-		try (Connection con = ConnectionDB.getConexaoMySQL()) {
-			UsuarioResourceClient dao = new UsuarioResourceClient(con);
+		try {
 			dao.excluir(id);
-		} catch (SQLException e) {
-			throw new RuntimeException(e.getMessage());
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 }
