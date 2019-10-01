@@ -1,4 +1,4 @@
-package com.example;
+package com.example.controllers;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 
 import com.example.models.Usuario;
 
-public class UsuarioResourceClient {
+public class UsuarioController {
 
 	private EntityManagerFactory emf;
 	private EntityManager em;
@@ -25,7 +25,7 @@ public class UsuarioResourceClient {
 	private String username;
 	private String password;
 
-	public UsuarioResourceClient() {
+	public UsuarioController() {
 		emf = Persistence.createEntityManagerFactory("my-persistence-unit");
 		em = emf.createEntityManager();
 		em.getTransaction().begin();
