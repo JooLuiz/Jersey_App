@@ -32,17 +32,6 @@ public class UsuarioResource {
 	}
 	
 	@POST
-	@Path("login")
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Response login(String body) {
-		System.out.println(body);
-		userService.login(body);
-		 
-        return Response.status(200).entity("Login successfully !!").build();
-	}
-	
-	@POST
 	@Path("create")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)

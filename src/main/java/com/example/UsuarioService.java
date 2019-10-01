@@ -16,16 +16,6 @@ public class UsuarioService {
 		dao = new UsuarioResourceClient();
 		mapper = new ObjectMapper();
 	}
-	public void login(String body){
-		try{
-			System.out.println(body);
-			Login login = mapper.readValue(body, Login.class);
-			System.out.println(login);
-			dao.login(login.usuario, login.senha);
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-	}
 	
 	public List<Usuario> fetchAll() {
 		try {
