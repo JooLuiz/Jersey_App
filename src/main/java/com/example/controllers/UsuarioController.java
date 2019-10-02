@@ -1,35 +1,38 @@
 package com.example.controllers;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.core.Response;
-
-import org.glassfish.jersey.client.ClientConfig;
-import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
-
 import com.example.models.Usuario;
+import com.example.state.IState;
 
-public class UsuarioController {
+public class UsuarioController implements IState<List<Usuario>> {
 
-	private EntityManagerFactory emf;
 	private EntityManager em;
-	private Client client;
-	private String username;
-	private String password;
+	private List<Usuario> state;
 
-	public UsuarioController() {
-		emf = Persistence.createEntityManagerFactory("my-persistence-unit");
-		em = emf.createEntityManager();
-		em.getTransaction().begin();
+	public UsuarioController(EntityManager Em) {
+		em = Em;
+		state = this.listar();
 	}
+	
+	@Override
+	public List<Usuario> setState(List<Usuario> listUsuario){
+		try{
+			this.state = listUsuario;
+			return this.state;
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	};
+	
+	@Override
+	public List<Usuario> getState(){
+    	return state;
+    };
 	
 	public Usuario listarUm(long id) {
 		try {

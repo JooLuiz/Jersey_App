@@ -4,8 +4,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import com.example.strategies.UsuarioStrategy;
+
 @Entity
-public class Usuario {
+public class Usuario implements UsuarioStrategy{
 	
 	@Id
     @Column(name = "id", updatable = false, nullable = false)
@@ -31,57 +33,63 @@ public class Usuario {
 		this.idade = idade;
 		this.sobrenome = sobrenome;
 	}
-
+	
+	@Override
 	public long getId() {
 		return id;
 	}
-
+	
+	@Override
 	public void setId(long id) {
 		this.id = id;
 	}
 
-	public Usuario() {
-		this.nome = null;
-		this.idade = 0;
-		this.sobrenome = null;
-	}
-
+	@Override
 	public String getNome() {
 		return nome;
 	}
 
+	@Override
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
 
+	@Override
 	public int getIdade() {
 		return idade;
 	}
 
+	@Override
 	public void setIdade(int idade) {
 		this.idade = idade;
 	}
 
+	@Override
 	public String getSobrenome() {
 		return sobrenome;
 	}
 
+	@Override
 	public void setSobrenome(String sobrenome) {
 		this.sobrenome = sobrenome;
 	}
 	
+	@Override
 	public String getUsuario() {
 		return usuario;
 	}
 
+	@Override
 	public void setUsuario(String usuario) {
 		this.usuario = usuario;
 	}
 
+	@Override
 	public String getSenha() {
 		return senha;
 	}
 
+	@Override
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}

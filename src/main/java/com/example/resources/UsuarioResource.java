@@ -2,6 +2,7 @@ package com.example.resources;
 
 import java.util.List;
 
+import javax.inject.Singleton;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -13,49 +14,50 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.example.controllers.UsuarioController;
+import com.example.controllers.ApplicationController;
 import com.example.models.Usuario;
 
 @Path("/users")
+@Singleton
 public class UsuarioResource {
 
-	private UsuarioController UsuarioController = new UsuarioController();
+	public ApplicationController applicationController = new ApplicationController();
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Usuario> fetchAll() {
-		return UsuarioController.listar();
+		return applicationController.usuarioController.listar();
 	}
 
 	@GET
 	@Path("user/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Usuario get(@PathParam("id") int id) {
-		return UsuarioController.listarUm(id);
+		return applicationController.usuarioController.listarUm(id);
 	}
-	
+
 	@POST
 	@Path("create")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response create(Usuario user) {
-		UsuarioController.inserir(user);
-		 
-        return Response.status(200).entity("User created successfully !!").build();
+		applicationController.usuarioController.inserir(user);
+
+		return Response.status(200).entity("User created successfully !!").build();
 	}
-	
+
 	@PUT
 	@Path("/user/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response update(@PathParam("id") long id, Usuario user) {
-		UsuarioController.atualizar(id, user);
+		applicationController.usuarioController.atualizar(id, user);
 		return Response.status(200).entity("User update successfully !!").build();
 	}
 
 	@DELETE
 	@Path("/user/{id}")
 	public Response delete(@PathParam("id") long id) {
-		UsuarioController.excluir(id);
+		applicationController.usuarioController.excluir(id);
 		return Response.status(202).entity("User deleted successfully !!").build();
 	}
 }
