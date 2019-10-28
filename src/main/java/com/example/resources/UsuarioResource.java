@@ -1,7 +1,8 @@
-package com.example;
+package com.example.resources;
 
 import java.util.List;
 
+import javax.inject.Singleton;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -13,57 +14,50 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.example.controllers.ApplicationController;
+import com.example.models.Usuario;
+
 @Path("/users")
+@Singleton
 public class UsuarioResource {
 
-	private UsuarioService userService = new UsuarioService();
+	public ApplicationController applicationController = new ApplicationController();
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Usuario> fetchAll() {
-		return userService.fetchAll();
+		return applicationController.usuarioController.listar();
 	}
 
 	@GET
 	@Path("user/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Usuario get(@PathParam("id") int id) {
-		return userService.fetchBy(id);
+		return applicationController.usuarioController.listarUm(id);
 	}
-	
-	@POST
-	@Path("login")
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Response login(String body) {
-		System.out.println(body);
-		userService.login(body);
-		 
-        return Response.status(200).entity("Login successfully !!").build();
-	}
-	
+
 	@POST
 	@Path("create")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response create(Usuario user) {
-		userService.create(user);
-		 
-        return Response.status(200).entity("User created successfully !!").build();
+		applicationController.usuarioController.inserir(user);
+
+		return Response.status(200).entity("User created successfully !!").build();
 	}
-	
+
 	@PUT
 	@Path("/user/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response update(@PathParam("id") long id, Usuario user) {
-		userService.update(id, user);
+		applicationController.usuarioController.atualizar(id, user);
 		return Response.status(200).entity("User update successfully !!").build();
 	}
 
 	@DELETE
 	@Path("/user/{id}")
 	public Response delete(@PathParam("id") long id) {
-		userService.delete(id);
+		applicationController.usuarioController.excluir(id);
 		return Response.status(202).entity("User deleted successfully !!").build();
 	}
 }
