@@ -2,7 +2,6 @@ package com.example.resources;
 
 import java.util.List;
 
-import javax.inject.Singleton;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -18,7 +17,6 @@ import com.example.controllers.ApplicationController;
 import com.example.models.Usuario;
 
 @Path("/users")
-@Singleton
 public class UsuarioResource {
 
 	public ApplicationController applicationController = new ApplicationController();

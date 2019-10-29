@@ -38,7 +38,7 @@ public class Materia implements MateriaStrategy{
 	public String ativa = "S";
 
 	@OneToMany(mappedBy="materia")
-    private Set<Aula> aulas;
+    public Set<Aula> aulas;
 	
 	@Override
 	public long getId() {

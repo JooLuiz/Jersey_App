@@ -47,7 +47,7 @@ public class Aula implements AulaStrategy{
 	public String situacao = "P";
 	
 	@OneToMany(mappedBy="aula")
-    private Set<Conteudo> conteudos;
+    public Set<Conteudo> conteudos;
 
 	@Override
 	public long getId() {
