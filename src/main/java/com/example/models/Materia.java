@@ -12,6 +12,12 @@ import com.example.strategies.MateriaStrategy;
 @Entity
 public class Materia implements MateriaStrategy{
 	
+	public Materia(String descricao, String ativa, Set<Aula> aulas) {
+		this.descricao = descricao;
+		this.ativa = ativa;
+		this.aulas = aulas;
+	}
+
 	public Materia(String descricao, String ativa){
 		this.descricao = descricao;
 		this.ativa = ativa;
@@ -73,6 +79,4 @@ public class Materia implements MateriaStrategy{
 	public void setAulas(Set<Aula> aulas) {
 		this.aulas = aulas;
 	}
-	
-	
 }

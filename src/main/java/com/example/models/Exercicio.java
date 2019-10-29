@@ -12,6 +12,13 @@ import com.example.strategies.ExercicioStrategy;
 
 public class Exercicio implements ExercicioStrategy{
 	
+	public Exercicio(Conteudo conteudo, String pergunta, String dificuldade, Set<Resposta> resposta) {
+		this.conteudo = conteudo;
+		this.pergunta = pergunta;
+		this.dificuldade = dificuldade;
+		this.resposta = resposta;
+	}
+
 	public Exercicio(Conteudo conteudo, String pergunta, String dificuldade) {
 		this.conteudo = conteudo;
 		this.pergunta = pergunta;
@@ -79,5 +86,15 @@ public class Exercicio implements ExercicioStrategy{
 	@Override
 	public void setDificuldade(String dificuldade) {
 		this.dificuldade = dificuldade;
+	}
+
+	@Override
+	public Set<Resposta> getResposta() {
+		return resposta;
+	}
+
+	@Override
+	public void setResposta(Set<Resposta> resposta) {
+		this.resposta = resposta;
 	}
 }

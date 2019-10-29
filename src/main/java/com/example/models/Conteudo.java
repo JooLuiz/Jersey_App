@@ -12,6 +12,12 @@ import com.example.strategies.ConteudoStrategy;
 
 public class Conteudo implements ConteudoStrategy{
 	
+	public Conteudo(Aula aula, String conteudo, Set<Exercicio> exercicios) {
+		this.aula = aula;
+		this.conteudo = conteudo;
+		this.exercicios = exercicios;
+	}
+
 	public Conteudo(Aula aula, String conteudo) {
 		this.aula = aula;
 		this.conteudo = conteudo;

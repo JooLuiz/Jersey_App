@@ -75,5 +75,4 @@ public class Resposta implements RespostaStrategy{
 	public void setCorreta(String correta) {
 		this.correta = correta;
 	}
-	
 }
