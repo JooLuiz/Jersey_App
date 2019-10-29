@@ -9,6 +9,12 @@ import com.example.strategies.UsuarioStrategy;
 @Entity
 public class Usuario implements UsuarioStrategy{
 	
+	public Usuario(String nome, String sobrenome, int idade){
+		this.nome = nome;
+		this.idade = idade;
+		this.sobrenome = sobrenome;
+	}
+	
 	@Id
     @Column(name = "id", updatable = false, nullable = false)
 	public long id;
@@ -27,12 +33,6 @@ public class Usuario implements UsuarioStrategy{
 	
 	@Column(name = "sobrenome")
 	public String sobrenome;
-	
-	public Usuario(String nome, String sobrenome, int idade){
-		this.nome = nome;
-		this.idade = idade;
-		this.sobrenome = sobrenome;
-	}
 	
 	@Override
 	public long getId() {

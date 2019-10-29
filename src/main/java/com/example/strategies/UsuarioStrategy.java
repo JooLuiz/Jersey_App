@@ -1,6 +1,7 @@
 package com.example.strategies;
 
 public interface UsuarioStrategy {
+	
 	public long getId();
 	public void setId(long id);
 
