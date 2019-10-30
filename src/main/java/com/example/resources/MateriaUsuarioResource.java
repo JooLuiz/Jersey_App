@@ -13,25 +13,25 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.example.controllers.ApplicationController;
+import com.example.controllers.MateriaUsuarioController;
 import com.example.models.MateriaUsuario;
 
 @Path("/materiasUsuario")
 public class MateriaUsuarioResource {
 
-	public ApplicationController applicationController = new ApplicationController();
+	public MateriaUsuarioController materiaUsuarioController = new MateriaUsuarioController();
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<MateriaUsuario> fetchAll() {
-		return applicationController.materiaUsuarioController.listar();
+		return materiaUsuarioController.listar();
 	}
 
 	@GET
 	@Path("materiaUsuario/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public MateriaUsuario get(@PathParam("id") int id) {
-		return applicationController.materiaUsuarioController.listarUm(id);
+		return materiaUsuarioController.listarUm(id);
 	}
 
 	@POST
@@ -39,7 +39,7 @@ public class MateriaUsuarioResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response create(MateriaUsuario materiaUsuario) {
-		applicationController.materiaUsuarioController.inserir(materiaUsuario);
+		materiaUsuarioController.inserir(materiaUsuario);
 
 		return Response.status(200).entity("MateriaUsuario created successfully !!").build();
 	}
@@ -48,14 +48,14 @@ public class MateriaUsuarioResource {
 	@Path("/materiaUsuario/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response update(@PathParam("id") long id, MateriaUsuario materiaUsuario) {
-		applicationController.materiaUsuarioController.atualizar(id, materiaUsuario);
+		materiaUsuarioController.atualizar(id, materiaUsuario);
 		return Response.status(200).entity("MateriaUsuario update successfully !!").build();
 	}
 
 	@DELETE
 	@Path("/materiaUsuario/{id}")
 	public Response delete(@PathParam("id") long id) {
-		applicationController.materiaUsuarioController.excluir(id);
+		materiaUsuarioController.excluir(id);
 		return Response.status(202).entity("MateriaUsuario deleted successfully !!").build();
 	}
 }

@@ -3,6 +3,7 @@ package com.example.models;
 import java.util.Set;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -10,6 +11,7 @@ import javax.persistence.OneToMany;
 
 import com.example.strategies.ExercicioStrategy;
 
+@Entity
 public class Exercicio implements ExercicioStrategy{
 	
 	public Exercicio(Conteudo conteudo, String pergunta, String dificuldade, Set<Resposta> resposta) {
@@ -46,7 +48,7 @@ public class Exercicio implements ExercicioStrategy{
 	public String dificuldade = "F";
 	
 	@OneToMany(mappedBy="exercicio")
-    private Set<Resposta> resposta;
+    public Set<Resposta> resposta;
 
 	@Override
 	public long getId() {

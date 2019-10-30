@@ -18,10 +18,12 @@ CREATE TABLE crud.materia (
 );
 
 CREATE TABLE crud.materia_usuario (
+	id_materia_usuario int NOT NULL AUTO_INCREMENT,
     id_usuario int NOT NULL,
     id_materia int NOT NULL,
     ano varchar(4) NOT NULL,
-    situacao varchar(1) NOT NULL DEFAULT 'A'
+    situacao varchar(1) NOT NULL DEFAULT 'A',
+    PRIMARY KEY (id_materia_usuario)
 );
 
 ALTER TABLE crud.materia_usuario ADD CONSTRAINT fk_usuario FOREIGN KEY ( id_usuario ) REFERENCES crud.usuario ( id );

@@ -9,6 +9,9 @@ import com.example.strategies.UsuarioStrategy;
 @Entity
 public class Usuario implements UsuarioStrategy{
 	
+	public Usuario() {
+	}
+
 	public Usuario(String nome, String sobrenome, int idade){
 		this.nome = nome;
 		this.idade = idade;

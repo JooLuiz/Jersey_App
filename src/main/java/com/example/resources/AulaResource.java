@@ -13,25 +13,25 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.example.controllers.ApplicationController;
+import com.example.controllers.AulaController;
 import com.example.models.Aula;
 
 @Path("/aulas")
 public class AulaResource {
 
-	public ApplicationController applicationController = new ApplicationController();
+	public AulaController aulaController = new AulaController();
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Aula> fetchAll() {
-		return applicationController.aulaController.listar();
+		return aulaController.listar();
 	}
 
 	@GET
 	@Path("aula/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Aula get(@PathParam("id") int id) {
-		return applicationController.aulaController.listarUm(id);
+		return aulaController.listarUm(id);
 	}
 
 	@POST
@@ -39,7 +39,7 @@ public class AulaResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response create(Aula aula) {
-		applicationController.aulaController.inserir(aula);
+		aulaController.inserir(aula);
 
 		return Response.status(200).entity("Aula created successfully !!").build();
 	}
@@ -48,14 +48,14 @@ public class AulaResource {
 	@Path("/aula/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response update(@PathParam("id") long id, Aula aula) {
-		applicationController.aulaController.atualizar(id, aula);
+		aulaController.atualizar(id, aula);
 		return Response.status(200).entity("Aula update successfully !!").build();
 	}
 
 	@DELETE
 	@Path("/aula/{id}")
 	public Response delete(@PathParam("id") long id) {
-		applicationController.aulaController.excluir(id);
+		aulaController.excluir(id);
 		return Response.status(202).entity("Aula deleted successfully !!").build();
 	}
 }

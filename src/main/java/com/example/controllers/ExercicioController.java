@@ -8,29 +8,29 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 
-import com.example.models.Aula;
+import com.example.models.Exercicio;
 import com.example.state.IState;
 
-public class AulaController implements IState<List<Aula>> {
+public class ExercicioController implements IState<List<Exercicio>> {
 
 	public EntityManagerFactory emf;
 	private EntityManager em;
-	private List<Aula> state;
+	private List<Exercicio> state;
 
-	public AulaController(EntityManager Em) {
+	public ExercicioController(EntityManager Em) {
 		em = Em;
 		state = this.listar();
 	}
 	
-	public AulaController(){
+	public ExercicioController(){
 		emf = Persistence.createEntityManagerFactory("my-persistence-unit");
 		em = emf.createEntityManager();
 	}
 	
 	@Override
-	public List<Aula> setState(List<Aula> listAula){
+	public List<Exercicio> setState(List<Exercicio> listExercicio){
 		try{
-			this.state = listAula;
+			this.state = listExercicio;
 			return this.state;
 		}catch(Exception e){
 			e.printStackTrace();
@@ -39,38 +39,38 @@ public class AulaController implements IState<List<Aula>> {
 	};
 	
 	@Override
-	public List<Aula> getState(){
+	public List<Exercicio> getState(){
     	return state;
     };
 	
-	public Aula listarUm(long id) {
+	public Exercicio listarUm(long id) {
 		try {
-			Aula aula = em.find(Aula.class, id);
+			Exercicio exercicio = em.find(Exercicio.class, id);
 			em.close();
-			return aula;
+			return exercicio;
 		} catch(Exception e){
 			e.printStackTrace();
 			return null;
 		}
 	}
 
-	public List<Aula> listar() {
-		List<Aula> aula = new ArrayList<>();
-		String query = "SELECT u FROM Aula u WHERE u.id IS NOT NULL";
-		TypedQuery<Aula> tq = em.createQuery(query, Aula.class);
+	public List<Exercicio> listar() {
+		List<Exercicio> exercicio = new ArrayList<>();
+		String query = "SELECT u FROM Exercicio u WHERE u.id IS NOT NULL";
+		TypedQuery<Exercicio> tq = em.createQuery(query, Exercicio.class);
 		try {
-			aula = tq.getResultList();
+			exercicio = tq.getResultList();
 			em.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		return aula;
+		return exercicio;
 	}
 	
-	public void inserir(Aula aula) {
+	public void inserir(Exercicio exercicio) {
 		try {
-			em.persist(aula);
+			em.persist(exercicio);
 			em.getTransaction().commit();
 			em.close();
 		} catch (Exception e) {
@@ -78,14 +78,14 @@ public class AulaController implements IState<List<Aula>> {
 		}
 	}
 
-	public void atualizar(long id, Aula al) {
+	public void atualizar(long id, Exercicio exerc) {
 		try {
-			Aula aula = em.find(Aula.class, id);
-			aula.setMateria(al.materia);
-			aula.setDescricao(al.descricao);
-			aula.setSituacao(al.situacao);
-			aula.setConteudos(al.conteudos);
-			em.merge(aula);
+			Exercicio exercicio = em.find(Exercicio.class, id);
+			exercicio.setConteudo(exerc.conteudo);
+			exercicio.setPergunta(exerc.pergunta);
+			exercicio.setDificuldade(exerc.dificuldade);
+			exercicio.setResposta(exerc.resposta);
+			em.merge(exercicio);
 			em.getTransaction().commit();
 			em.close();
 		}catch(Exception e){
@@ -99,8 +99,8 @@ public class AulaController implements IState<List<Aula>> {
 		}
 
 		try {
-			Aula aula = em.find(Aula.class, id);
-			em.remove(aula);
+			Exercicio exercicio = em.find(Exercicio.class, id);
+			em.remove(exercicio);
 			em.getTransaction().commit();
 			em.close();
 		}catch(Exception e){

@@ -3,6 +3,7 @@ package com.example.models;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
@@ -24,6 +25,10 @@ public class MateriaUsuario implements MateriaUsuarioStrategy{
 		this.ano = ano;
 	}
 	
+	@Id
+    @Column(name = "id_materia_usuario", updatable = false, nullable = false)
+	public long id;
+	
 	@JoinColumn(name = "id_materia", unique = true)
     @OneToOne(cascade = CascadeType.ALL)
     public Materia materia;
@@ -37,6 +42,16 @@ public class MateriaUsuario implements MateriaUsuarioStrategy{
 
 	@Column(name = "situacao")
 	public String situacao = "A";
+
+	@Override
+	public long getId() {
+		return id;
+	}
+	
+	@Override
+	public void setId(long id) {
+		this.id = id;
+	}
 
 	@Override
 	public Materia getMateria() {

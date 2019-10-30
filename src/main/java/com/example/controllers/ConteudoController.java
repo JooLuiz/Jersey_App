@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 
 import com.example.models.Conteudo;
@@ -11,12 +13,18 @@ import com.example.state.IState;
 
 public class ConteudoController implements IState<List<Conteudo>> {
 
+	public EntityManagerFactory emf;
 	private EntityManager em;
 	private List<Conteudo> state;
 
 	public ConteudoController(EntityManager Em) {
 		em = Em;
 		state = this.listar();
+	}
+	
+	public ConteudoController(){
+		emf = Persistence.createEntityManagerFactory("my-persistence-unit");
+		em = emf.createEntityManager();
 	}
 	
 	@Override
@@ -47,7 +55,7 @@ public class ConteudoController implements IState<List<Conteudo>> {
 	}
 
 	public List<Conteudo> listar() {
-		List<Conteudo> Conteudo = new ArrayList<>();
+		List<Conteudo> conteudo = new ArrayList<>();
 		String query = "SELECT u FROM Conteudo u WHERE u.id IS NOT NULL";
 		TypedQuery<Conteudo> tq = em.createQuery(query, Conteudo.class);
 		try {
@@ -73,10 +81,9 @@ public class ConteudoController implements IState<List<Conteudo>> {
 	public void atualizar(long id, Conteudo cont) {
 		try {
 			Conteudo conteudo = em.find(Conteudo.class, id);
-			conteudo.setMateria(cont.materia);
-			conteudo.setDescricao(cont.descricao);
-			conteudo.setSituacao(cont.situacao);
-			conteudo.setConteudos(cont.conteudos);
+			conteudo.setAula(cont.aula);
+			conteudo.setConteudo(cont.conteudo);
+			conteudo.setExercicios(cont.exercicios);
 			em.merge(conteudo);
 			em.getTransaction().commit();
 			em.close();

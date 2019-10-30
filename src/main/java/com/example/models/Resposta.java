@@ -1,12 +1,14 @@
 package com.example.models;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import com.example.strategies.RespostaStrategy;
 
+@Entity
 public class Resposta implements RespostaStrategy{
 	
 	public Resposta(Exercicio exercicio, String descricao, String correta) {

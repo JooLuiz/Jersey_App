@@ -13,25 +13,25 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.example.controllers.ApplicationController;
+import com.example.controllers.MateriaController;
 import com.example.models.Materia;
 
 @Path("/materias")
 public class MateriaResource {
 
-	public ApplicationController applicationController = new ApplicationController();
+	public MateriaController materiaController = new MateriaController();
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Materia> fetchAll() {
-		return applicationController.materiaController.listar();
+		return materiaController.listar();
 	}
 
 	@GET
 	@Path("materia/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Materia get(@PathParam("id") int id) {
-		return applicationController.materiaController.listarUm(id);
+		return materiaController.listarUm(id);
 	}
 
 	@POST
@@ -39,7 +39,7 @@ public class MateriaResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response create(Materia materia) {
-		applicationController.materiaController.inserir(materia);
+		materiaController.inserir(materia);
 
 		return Response.status(200).entity("Materia created successfully !!").build();
 	}
@@ -48,14 +48,14 @@ public class MateriaResource {
 	@Path("/materia/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response update(@PathParam("id") long id, Materia materia) {
-		applicationController.materiaController.atualizar(id, materia);
+		materiaController.atualizar(id, materia);
 		return Response.status(200).entity("Materia update successfully !!").build();
 	}
 
 	@DELETE
 	@Path("/materia/{id}")
 	public Response delete(@PathParam("id") long id) {
-		applicationController.materiaController.excluir(id);
+		materiaController.excluir(id);
 		return Response.status(202).entity("Materia deleted successfully !!").build();
 	}
 }

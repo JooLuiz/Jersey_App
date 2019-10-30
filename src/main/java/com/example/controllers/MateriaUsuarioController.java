@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 
 import com.example.models.MateriaUsuario;
@@ -11,12 +13,18 @@ import com.example.state.IState;
 
 public class MateriaUsuarioController implements IState<List<MateriaUsuario>> {
 
+	public EntityManagerFactory emf;
 	private EntityManager em;
 	private List<MateriaUsuario> state;
 
 	public MateriaUsuarioController(EntityManager Em) {
 		em = Em;
 		state = this.listar();
+	}
+	
+	public MateriaUsuarioController(){
+		emf = Persistence.createEntityManagerFactory("my-persistence-unit");
+		em = emf.createEntityManager();
 	}
 	
 	@Override

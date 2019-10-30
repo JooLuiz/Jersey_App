@@ -2,6 +2,7 @@ package com.example.models;
 
 import java.util.Set;
 
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -11,20 +12,14 @@ import com.example.strategies.MateriaStrategy;
 
 @Entity
 public class Materia implements MateriaStrategy{
+
+	public Materia() {
+	}
 	
 	public Materia(String descricao, String ativa, Set<Aula> aulas) {
 		this.descricao = descricao;
 		this.ativa = ativa;
 		this.aulas = aulas;
-	}
-
-	public Materia(String descricao, String ativa){
-		this.descricao = descricao;
-		this.ativa = ativa;
-	}
-	
-	public Materia(String descricao){
-		this.descricao = descricao;
 	}
 
 	@Id
@@ -71,6 +66,7 @@ public class Materia implements MateriaStrategy{
 	}
 	
 	@Override
+	@JsonbTransient
 	public Set<Aula> getAulas() {
 		return aulas;
 	}

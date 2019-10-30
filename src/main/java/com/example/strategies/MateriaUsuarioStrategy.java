@@ -5,6 +5,9 @@ import com.example.models.Usuario;
 
 public interface MateriaUsuarioStrategy {
 
+	public long getId();
+	public void setId(long id);
+	
 	public Materia getMateria();
 	public void setMateria(Materia materia);
 
