@@ -64,7 +64,6 @@ public class Aula implements AulaStrategy{
 	}
 
 	@Override
-	@JsonbTransient
 	public Materia getMateria() {
 		return materia;
 	}
@@ -95,6 +94,7 @@ public class Aula implements AulaStrategy{
 	}
 	
 	@Override
+	@JsonbTransient
 	public Set<Conteudo> getConteudos() {
 		return conteudos;
 	}
