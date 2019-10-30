@@ -1,15 +1,18 @@
 package com.example.models;
 
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 import com.example.strategies.MateriaUsuarioStrategy;
 
 @Entity
+@Table(name = "materia_usuario")
 public class MateriaUsuario implements MateriaUsuarioStrategy{
 
 	public MateriaUsuario(Materia materia, Usuario usuario, String ano, String situacao) {
@@ -23,6 +26,9 @@ public class MateriaUsuario implements MateriaUsuarioStrategy{
 		this.materia = materia;
 		this.usuario = usuario;
 		this.ano = ano;
+	}
+	
+	public MateriaUsuario() {
 	}
 	
 	@Id
@@ -54,6 +60,7 @@ public class MateriaUsuario implements MateriaUsuarioStrategy{
 	}
 
 	@Override
+	@JsonbTransient
 	public Materia getMateria() {
 		return materia;
 	}
@@ -64,6 +71,7 @@ public class MateriaUsuario implements MateriaUsuarioStrategy{
 	}
 
 	@Override
+	@JsonbTransient
 	public Usuario getUsuario() {
 		return usuario;
 	}

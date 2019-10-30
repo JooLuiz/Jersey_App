@@ -12,14 +12,14 @@ import com.example.strategies.MateriaStrategy;
 
 @Entity
 public class Materia implements MateriaStrategy{
-
-	public Materia() {
-	}
 	
 	public Materia(String descricao, String ativa, Set<Aula> aulas) {
 		this.descricao = descricao;
 		this.ativa = ativa;
 		this.aulas = aulas;
+	}
+	
+	public Materia() {
 	}
 
 	@Id

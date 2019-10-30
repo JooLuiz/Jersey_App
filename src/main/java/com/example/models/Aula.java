@@ -2,6 +2,7 @@ package com.example.models;
 
 import java.util.Set;
 
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -30,6 +31,9 @@ public class Aula implements AulaStrategy{
 	public Aula(Materia materia, String descricao) {
 		this.materia = materia;
 		this.descricao = descricao;
+	}
+	
+	public Aula() {
 	}
 
 	@Id
@@ -60,6 +64,7 @@ public class Aula implements AulaStrategy{
 	}
 
 	@Override
+	@JsonbTransient
 	public Materia getMateria() {
 		return materia;
 	}

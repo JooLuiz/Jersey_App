@@ -1,5 +1,6 @@
 package com.example.models;
 
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -12,16 +13,16 @@ import com.example.strategies.RespostaStrategy;
 public class Resposta implements RespostaStrategy{
 	
 	public Resposta(Exercicio exercicio, String descricao, String correta) {
-		super();
 		this.exercicio = exercicio;
 		this.descricao = descricao;
 		this.correta = correta;
 	}
 
 	public Resposta(Exercicio exercicio, String descricao) {
-		super();
 		this.exercicio = exercicio;
 		this.descricao = descricao;
+	}
+	public Resposta() {
 	}
 
 	@Id
@@ -49,6 +50,7 @@ public class Resposta implements RespostaStrategy{
 	}
 
 	@Override
+	@JsonbTransient
 	public Exercicio getExercicio() {
 		return exercicio;
 	}
