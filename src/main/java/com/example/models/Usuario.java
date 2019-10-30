@@ -1,6 +1,5 @@
 package com.example.models;
 
-import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -49,7 +48,6 @@ public class Usuario implements UsuarioStrategy{
 	}
 
 	@Override
-	@JsonbTransient
 	public String getNome() {
 		return nome;
 	}
@@ -60,7 +58,6 @@ public class Usuario implements UsuarioStrategy{
 	}
 
 	@Override
-	@JsonbTransient
 	public int getIdade() {
 		return idade;
 	}
@@ -71,7 +68,6 @@ public class Usuario implements UsuarioStrategy{
 	}
 
 	@Override
-	@JsonbTransient
 	public String getSobrenome() {
 		return sobrenome;
 	}
@@ -82,7 +78,6 @@ public class Usuario implements UsuarioStrategy{
 	}
 	
 	@Override
-	@JsonbTransient
 	public String getUsuario() {
 		return usuario;
 	}
@@ -93,7 +88,6 @@ public class Usuario implements UsuarioStrategy{
 	}
 
 	@Override
-	@JsonbTransient
 	public String getSenha() {
 		return senha;
 	}

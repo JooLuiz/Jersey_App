@@ -1,6 +1,5 @@
 package com.example.models;
 
-import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -60,7 +59,6 @@ public class MateriaUsuario implements MateriaUsuarioStrategy{
 	}
 
 	@Override
-	@JsonbTransient
 	public Materia getMateria() {
 		return materia;
 	}
@@ -71,7 +69,6 @@ public class MateriaUsuario implements MateriaUsuarioStrategy{
 	}
 
 	@Override
-	@JsonbTransient
 	public Usuario getUsuario() {
 		return usuario;
 	}
