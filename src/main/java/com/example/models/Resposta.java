@@ -1,6 +1,5 @@
 package com.example.models;
 
-import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -10,8 +9,8 @@ import javax.persistence.ManyToOne;
 import com.example.strategies.RespostaStrategy;
 
 @Entity
-public class Resposta implements RespostaStrategy{
-	
+public class Resposta implements RespostaStrategy {
+
 	public Resposta(Exercicio exercicio, String descricao, String correta) {
 		this.exercicio = exercicio;
 		this.descricao = descricao;
@@ -22,17 +21,18 @@ public class Resposta implements RespostaStrategy{
 		this.exercicio = exercicio;
 		this.descricao = descricao;
 	}
+
 	public Resposta() {
 	}
 
 	@Id
-    @Column(name = "id", updatable = false, nullable = false)
+	@Column(name = "id", updatable = false, nullable = false)
 	public long id;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "id_exercicio", nullable = false)
-    public Exercicio exercicio;
-	
+	public Exercicio exercicio;
+
 	@Column(name = "descricao")
 	public String descricao;
 
@@ -50,7 +50,6 @@ public class Resposta implements RespostaStrategy{
 	}
 
 	@Override
-	@JsonbTransient
 	public Exercicio getExercicio() {
 		return exercicio;
 	}

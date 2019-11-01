@@ -9,3 +9,12 @@ values (1,1,'2019');
 
 insert into crud.aula(id_materia, descricao)
 values (1,'Revolução Francesa');
+
+insert into crud.conteudo(id_aula, conteudo)
+values (1,'A revolução Francesa aconteçeu no país europeu conhecido por seus brioches e sua cultura de mímicos. Nesta cidade está uma das maiores construções arquitetónicas do planteta');
+
+insert into crud.exercicio(id_conteudo, pergunta)
+values (1,'Quais eram os dois lados politicos que participaram da revolução francesa?');
+
+insert into crud.resposta(id_exercicio, descricao)
+values(1, "Lero Lero")

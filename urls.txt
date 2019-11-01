@@ -1,27 +1,34 @@
 ######### USUARIO #########
 
 http://localhost:8080/myapp/usuarios
+http://localhost:8080/myapp/usuarios/usuario/1
 
 ######### MATERIA #########
 
 http://localhost:8080/myapp/materias
+http://localhost:8080/myapp/materias/materia/1
 
 ######### MATERIA_USUARIO #########
 
 http://localhost:8080/myapp/materiasUsuario
+http://localhost:8080/myapp/materiasUsuario/materiaUsuario/1
 
 ######### AULA #########
 
 http://localhost:8080/myapp/aulas
+http://localhost:8080/myapp/aulas/aula/1
 
 ######### CONTEUDO #########
 
 http://localhost:8080/myapp/conteudos
+http://localhost:8080/myapp/conteudos/conteudo/1
 
 ######### EXERCICIO #########
 
 http://localhost:8080/myapp/exercicios
+http://localhost:8080/myapp/exercicios/exercicio/1
 
 ######### RESPOSTA #########
 
 http://localhost:8080/myapp/respostas
+http://localhost:8080/myapp/respostas/resposta/1

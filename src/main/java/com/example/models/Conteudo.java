@@ -13,8 +13,8 @@ import javax.persistence.OneToMany;
 import com.example.strategies.ConteudoStrategy;
 
 @Entity
-public class Conteudo implements ConteudoStrategy{
-	
+public class Conteudo implements ConteudoStrategy {
+
 	public Conteudo(Aula aula, String conteudo, Set<Exercicio> exercicios) {
 		this.aula = aula;
 		this.conteudo = conteudo;
@@ -25,23 +25,23 @@ public class Conteudo implements ConteudoStrategy{
 		this.aula = aula;
 		this.conteudo = conteudo;
 	}
-	
+
 	public Conteudo() {
 	}
 
 	@Id
-    @Column(name = "id", updatable = false, nullable = false)
+	@Column(name = "id", updatable = false, nullable = false)
 	public long id;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "id_aula", nullable = false)
-    public Aula aula;
-	
+	public Aula aula;
+
 	@Column(name = "conteudo")
 	public String conteudo;
-	
-	@OneToMany(mappedBy="conteudo")
-    public Set<Exercicio> exercicios;
+
+	@OneToMany(mappedBy = "conteudo")
+	public Set<Exercicio> exercicios;
 
 	@Override
 	public long getId() {
@@ -64,7 +64,6 @@ public class Conteudo implements ConteudoStrategy{
 	}
 
 	@Override
-	@JsonbTransient
 	public String getConteudo() {
 		return conteudo;
 	}
@@ -73,7 +72,7 @@ public class Conteudo implements ConteudoStrategy{
 	public void setConteudo(String conteudo) {
 		this.conteudo = conteudo;
 	}
-	
+
 	@Override
 	@JsonbTransient
 	public Set<Exercicio> getExercicios() {

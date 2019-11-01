@@ -13,8 +13,8 @@ import javax.persistence.OneToMany;
 import com.example.strategies.AulaStrategy;
 
 @Entity
-public class Aula implements AulaStrategy{
-	
+public class Aula implements AulaStrategy {
+
 	public Aula(Materia materia, String descricao, String situacao, Set<Conteudo> conteudos) {
 		this.materia = materia;
 		this.descricao = descricao;
@@ -32,26 +32,26 @@ public class Aula implements AulaStrategy{
 		this.materia = materia;
 		this.descricao = descricao;
 	}
-	
+
 	public Aula() {
 	}
 
 	@Id
-    @Column(name = "id", updatable = false, nullable = false)
+	@Column(name = "id", updatable = false, nullable = false)
 	public long id;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "id_materia", nullable = false)
-    public Materia materia;
-	
+	public Materia materia;
+
 	@Column(name = "descricao")
 	public String descricao;
 
 	@Column(name = "situacao")
 	public String situacao = "P";
-	
-	@OneToMany(mappedBy="aula")
-    public Set<Conteudo> conteudos;
+
+	@OneToMany(mappedBy = "aula")
+	public Set<Conteudo> conteudos;
 
 	@Override
 	public long getId() {
@@ -78,7 +78,7 @@ public class Aula implements AulaStrategy{
 		return descricao;
 	}
 
-	@Override	
+	@Override
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
@@ -92,7 +92,7 @@ public class Aula implements AulaStrategy{
 	public void setSituacao(String situacao) {
 		this.situacao = situacao;
 	}
-	
+
 	@Override
 	@JsonbTransient
 	public Set<Conteudo> getConteudos() {
