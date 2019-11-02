@@ -13,6 +13,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.example.controllers.UsuarioController;
+import com.example.models.Usuario;
+import com.example.controllers.MateriaController;
+import com.example.models.Materia;
 import com.example.controllers.MateriaUsuarioController;
 import com.example.models.MateriaUsuario;
 
@@ -20,6 +24,8 @@ import com.example.models.MateriaUsuario;
 public class MateriaUsuarioResource {
 
 	public MateriaUsuarioController materiaUsuarioController = new MateriaUsuarioController();
+	public MateriaController materiaController = new MateriaController();
+	public UsuarioController usuarioController = new UsuarioController();
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -39,7 +45,17 @@ public class MateriaUsuarioResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response create(MateriaUsuario materiaUsuario) {
-		materiaUsuarioController.inserir(materiaUsuario);
+		Materia mat = materiaController.listarUm(materiaUsuario.getMateria().getId());
+		Usuario usr = usuarioController.listarUm(materiaUsuario.getUsuario().getId());
+
+		MateriaUsuario matusr = new MateriaUsuario();
+
+		matusr.setMateria(mat);
+		matusr.setAno(materiaUsuario.getAno());
+		matusr.setSituacao(materiaUsuario.getSituacao());
+		matusr.setUsuario(usr);
+
+		materiaUsuarioController.inserir(matusr);
 
 		return Response.status(200).entity("MateriaUsuario created successfully !!").build();
 	}

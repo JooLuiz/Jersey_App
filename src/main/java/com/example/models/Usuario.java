@@ -1,8 +1,12 @@
 package com.example.models;
 
+import java.util.Set;
+
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import com.example.strategies.UsuarioStrategy;
 
@@ -36,6 +40,9 @@ public class Usuario implements UsuarioStrategy {
 
 	@Column(name = "sobrenome")
 	public String sobrenome;
+
+	@OneToMany(mappedBy = "materia")
+	public Set<MateriaUsuario> materiaUsuarios;
 
 	@Override
 	public long getId() {
@@ -95,6 +102,15 @@ public class Usuario implements UsuarioStrategy {
 	@Override
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+
+	@JsonbTransient
+	public Set<MateriaUsuario> getMateriaUsuarios() {
+		return materiaUsuarios;
+	}
+
+	public void setMateriaUsuarios(Set<MateriaUsuario> materiaUsuarios) {
+		this.materiaUsuarios = materiaUsuarios;
 	}
 
 }

@@ -36,12 +36,12 @@ body:
     "ano": "2013",
     "materia": 
     { 
-        "id": 1 
+        "id": 1
     },
     "situacao": "A",
     "usuario": 
     { 
-        "id": 1 
+        "id": 2 
     }
 }
 

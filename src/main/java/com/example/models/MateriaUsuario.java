@@ -5,6 +5,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -34,12 +35,12 @@ public class MateriaUsuario implements MateriaUsuarioStrategy {
 	@Column(name = "id_materia_usuario", updatable = false, nullable = false)
 	public long id;
 
-	@JoinColumn(name = "id_materia", unique = true)
-	@OneToOne(cascade = CascadeType.ALL)
+	@ManyToOne
+	@JoinColumn(name = "id_materia")
 	public Materia materia;
 
-	@JoinColumn(name = "id_usuario", unique = true)
-	@OneToOne(cascade = CascadeType.ALL)
+	@ManyToOne
+	@JoinColumn(name = "id_usuario")
 	public Usuario usuario;
 
 	@Column(name = "ano")

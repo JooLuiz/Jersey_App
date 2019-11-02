@@ -77,6 +77,7 @@ public class MateriaUsuarioController implements IState<List<MateriaUsuario>> {
 			em.getTransaction().commit();
 			em.close();
 		} catch (Exception e) {
+			System.out.println(e.getMessage());
 			e.printStackTrace();
 		}
 	}

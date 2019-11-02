@@ -35,6 +35,9 @@ public class Materia implements MateriaStrategy {
 	@OneToMany(mappedBy = "materia")
 	public Set<Aula> aulas;
 
+	@OneToMany(mappedBy = "materia")
+	public Set<MateriaUsuario> materiaUsuarios;
+
 	@Override
 	public long getId() {
 		return id;
@@ -74,5 +77,14 @@ public class Materia implements MateriaStrategy {
 	@Override
 	public void setAulas(Set<Aula> aulas) {
 		this.aulas = aulas;
+	}
+
+	@JsonbTransient
+	public Set<MateriaUsuario> getMateriaUsuarios() {
+		return materiaUsuarios;
+	}
+
+	public void setMateriaUsuarios(Set<MateriaUsuario> materiaUsuarios) {
+		this.materiaUsuarios = materiaUsuarios;
 	}
 }
