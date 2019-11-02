@@ -21,34 +21,35 @@ public class ExercicioController implements IState<List<Exercicio>> {
 		em = Em;
 		state = this.listar();
 	}
-	
-	public ExercicioController(){
+
+	public ExercicioController() {
 		emf = Persistence.createEntityManagerFactory("my-persistence-unit");
 		em = emf.createEntityManager();
 	}
-	
+
 	@Override
-	public List<Exercicio> setState(List<Exercicio> listExercicio){
-		try{
+	public List<Exercicio> setState(List<Exercicio> listExercicio) {
+		try {
 			this.state = listExercicio;
 			return this.state;
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 	};
-	
+
 	@Override
-	public List<Exercicio> getState(){
-    	return state;
-    };
-	
+	public List<Exercicio> getState() {
+		return state;
+	};
+
 	public Exercicio listarUm(long id) {
 		try {
+			em.getTransaction().begin();
 			Exercicio exercicio = em.find(Exercicio.class, id);
 			em.close();
 			return exercicio;
-		} catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
@@ -59,6 +60,7 @@ public class ExercicioController implements IState<List<Exercicio>> {
 		String query = "SELECT u FROM Exercicio u WHERE u.id IS NOT NULL";
 		TypedQuery<Exercicio> tq = em.createQuery(query, Exercicio.class);
 		try {
+			em.getTransaction().begin();
 			exercicio = tq.getResultList();
 			em.close();
 		} catch (Exception e) {
@@ -67,9 +69,10 @@ public class ExercicioController implements IState<List<Exercicio>> {
 
 		return exercicio;
 	}
-	
+
 	public void inserir(Exercicio exercicio) {
 		try {
+			em.getTransaction().begin();
 			em.persist(exercicio);
 			em.getTransaction().commit();
 			em.close();
@@ -80,6 +83,7 @@ public class ExercicioController implements IState<List<Exercicio>> {
 
 	public void atualizar(long id, Exercicio exerc) {
 		try {
+			em.getTransaction().begin();
 			Exercicio exercicio = em.find(Exercicio.class, id);
 			exercicio.setConteudo(exerc.conteudo);
 			exercicio.setPergunta(exerc.pergunta);
@@ -88,7 +92,7 @@ public class ExercicioController implements IState<List<Exercicio>> {
 			em.merge(exercicio);
 			em.getTransaction().commit();
 			em.close();
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -99,11 +103,12 @@ public class ExercicioController implements IState<List<Exercicio>> {
 		}
 
 		try {
+			em.getTransaction().begin();
 			Exercicio exercicio = em.find(Exercicio.class, id);
 			em.remove(exercicio);
 			em.getTransaction().commit();
 			em.close();
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 

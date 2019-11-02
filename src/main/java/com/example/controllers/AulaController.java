@@ -21,34 +21,35 @@ public class AulaController implements IState<List<Aula>> {
 		em = Em;
 		state = this.listar();
 	}
-	
-	public AulaController(){
+
+	public AulaController() {
 		emf = Persistence.createEntityManagerFactory("my-persistence-unit");
 		em = emf.createEntityManager();
 	}
-	
+
 	@Override
-	public List<Aula> setState(List<Aula> listAula){
-		try{
+	public List<Aula> setState(List<Aula> listAula) {
+		try {
 			this.state = listAula;
 			return this.state;
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 	};
-	
+
 	@Override
-	public List<Aula> getState(){
-    	return state;
-    };
-	
+	public List<Aula> getState() {
+		return state;
+	};
+
 	public Aula listarUm(long id) {
 		try {
+			em.getTransaction().begin();
 			Aula aula = em.find(Aula.class, id);
 			em.close();
 			return aula;
-		} catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
@@ -59,6 +60,7 @@ public class AulaController implements IState<List<Aula>> {
 		String query = "SELECT u FROM Aula u WHERE u.id IS NOT NULL";
 		TypedQuery<Aula> tq = em.createQuery(query, Aula.class);
 		try {
+			em.getTransaction().begin();
 			aula = tq.getResultList();
 			em.close();
 		} catch (Exception e) {
@@ -67,9 +69,10 @@ public class AulaController implements IState<List<Aula>> {
 
 		return aula;
 	}
-	
+
 	public void inserir(Aula aula) {
 		try {
+			em.getTransaction().begin();
 			em.persist(aula);
 			em.getTransaction().commit();
 			em.close();
@@ -80,6 +83,7 @@ public class AulaController implements IState<List<Aula>> {
 
 	public void atualizar(long id, Aula al) {
 		try {
+			em.getTransaction().begin();
 			Aula aula = em.find(Aula.class, id);
 			aula.setMateria(al.materia);
 			aula.setDescricao(al.descricao);
@@ -88,7 +92,7 @@ public class AulaController implements IState<List<Aula>> {
 			em.merge(aula);
 			em.getTransaction().commit();
 			em.close();
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -99,11 +103,12 @@ public class AulaController implements IState<List<Aula>> {
 		}
 
 		try {
+			em.getTransaction().begin();
 			Aula aula = em.find(Aula.class, id);
 			em.remove(aula);
 			em.getTransaction().commit();
 			em.close();
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 

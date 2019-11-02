@@ -21,34 +21,35 @@ public class RespostaController implements IState<List<Resposta>> {
 		em = Em;
 		state = this.listar();
 	}
-	
-	public RespostaController(){
+
+	public RespostaController() {
 		emf = Persistence.createEntityManagerFactory("my-persistence-unit");
 		em = emf.createEntityManager();
 	}
-	
+
 	@Override
-	public List<Resposta> setState(List<Resposta> listResposta){
-		try{
+	public List<Resposta> setState(List<Resposta> listResposta) {
+		try {
 			this.state = listResposta;
 			return this.state;
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 	};
-	
+
 	@Override
-	public List<Resposta> getState(){
-    	return state;
-    };
-	
+	public List<Resposta> getState() {
+		return state;
+	};
+
 	public Resposta listarUm(long id) {
 		try {
+			em.getTransaction().begin();
 			Resposta resposta = em.find(Resposta.class, id);
 			em.close();
 			return resposta;
-		} catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
@@ -59,6 +60,7 @@ public class RespostaController implements IState<List<Resposta>> {
 		String query = "SELECT u FROM Resposta u WHERE u.id IS NOT NULL";
 		TypedQuery<Resposta> tq = em.createQuery(query, Resposta.class);
 		try {
+			em.getTransaction().begin();
 			resposta = tq.getResultList();
 			em.close();
 		} catch (Exception e) {
@@ -67,9 +69,10 @@ public class RespostaController implements IState<List<Resposta>> {
 
 		return resposta;
 	}
-	
+
 	public void inserir(Resposta resposta) {
 		try {
+			em.getTransaction().begin();
 			em.persist(resposta);
 			em.getTransaction().commit();
 			em.close();
@@ -80,6 +83,7 @@ public class RespostaController implements IState<List<Resposta>> {
 
 	public void atualizar(long id, Resposta resp) {
 		try {
+			em.getTransaction().begin();
 			Resposta resposta = em.find(Resposta.class, id);
 			resposta.setExercicio(resp.exercicio);
 			resposta.setDescricao(resp.descricao);
@@ -87,7 +91,7 @@ public class RespostaController implements IState<List<Resposta>> {
 			em.merge(resposta);
 			em.getTransaction().commit();
 			em.close();
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -98,11 +102,12 @@ public class RespostaController implements IState<List<Resposta>> {
 		}
 
 		try {
+			em.getTransaction().begin();
 			Resposta resposta = em.find(Resposta.class, id);
 			em.remove(resposta);
 			em.getTransaction().commit();
 			em.close();
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 

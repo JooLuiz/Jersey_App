@@ -11,30 +11,30 @@ import javax.persistence.OneToMany;
 import com.example.strategies.MateriaStrategy;
 
 @Entity
-public class Materia implements MateriaStrategy{
-	
+public class Materia implements MateriaStrategy {
+
 	public Materia(String descricao, String ativa, Set<Aula> aulas) {
 		this.descricao = descricao;
 		this.ativa = ativa;
 		this.aulas = aulas;
 	}
-	
+
 	public Materia() {
 	}
 
 	@Id
-    @Column(name = "id", updatable = false, nullable = false)
+	@Column(name = "id", updatable = false, nullable = false)
 	public long id;
-	
+
 	@Column(name = "descricao")
 	public String descricao;
 
 	@Column(name = "ativa")
 	public String ativa = "S";
 
-	@OneToMany(mappedBy="materia")
-    public Set<Aula> aulas;
-	
+	@OneToMany(mappedBy = "materia")
+	public Set<Aula> aulas;
+
 	@Override
 	public long getId() {
 		return id;
@@ -64,7 +64,7 @@ public class Materia implements MateriaStrategy{
 	public void setAtiva(String ativa) {
 		this.ativa = ativa;
 	}
-	
+
 	@Override
 	@JsonbTransient
 	public Set<Aula> getAulas() {

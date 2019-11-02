@@ -21,34 +21,35 @@ public class ConteudoController implements IState<List<Conteudo>> {
 		em = Em;
 		state = this.listar();
 	}
-	
-	public ConteudoController(){
+
+	public ConteudoController() {
 		emf = Persistence.createEntityManagerFactory("my-persistence-unit");
 		em = emf.createEntityManager();
 	}
-	
+
 	@Override
-	public List<Conteudo> setState(List<Conteudo> listConteudo){
-		try{
+	public List<Conteudo> setState(List<Conteudo> listConteudo) {
+		try {
 			this.state = listConteudo;
 			return this.state;
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 	};
-	
+
 	@Override
-	public List<Conteudo> getState(){
-    	return state;
-    };
-	
+	public List<Conteudo> getState() {
+		return state;
+	};
+
 	public Conteudo listarUm(long id) {
 		try {
+			em.getTransaction().begin();
 			Conteudo conteudo = em.find(Conteudo.class, id);
 			em.close();
 			return conteudo;
-		} catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
@@ -59,6 +60,7 @@ public class ConteudoController implements IState<List<Conteudo>> {
 		String query = "SELECT u FROM Conteudo u WHERE u.id IS NOT NULL";
 		TypedQuery<Conteudo> tq = em.createQuery(query, Conteudo.class);
 		try {
+			em.getTransaction().begin();
 			conteudo = tq.getResultList();
 			em.close();
 		} catch (Exception e) {
@@ -67,9 +69,10 @@ public class ConteudoController implements IState<List<Conteudo>> {
 
 		return conteudo;
 	}
-	
+
 	public void inserir(Conteudo conteudo) {
 		try {
+			em.getTransaction().begin();
 			em.persist(conteudo);
 			em.getTransaction().commit();
 			em.close();
@@ -80,6 +83,7 @@ public class ConteudoController implements IState<List<Conteudo>> {
 
 	public void atualizar(long id, Conteudo cont) {
 		try {
+			em.getTransaction().begin();
 			Conteudo conteudo = em.find(Conteudo.class, id);
 			conteudo.setAula(cont.aula);
 			conteudo.setConteudo(cont.conteudo);
@@ -87,7 +91,7 @@ public class ConteudoController implements IState<List<Conteudo>> {
 			em.merge(conteudo);
 			em.getTransaction().commit();
 			em.close();
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -98,11 +102,12 @@ public class ConteudoController implements IState<List<Conteudo>> {
 		}
 
 		try {
+			em.getTransaction().begin();
 			Conteudo conteudo = em.find(Conteudo.class, id);
 			em.remove(conteudo);
 			em.getTransaction().commit();
 			em.close();
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 

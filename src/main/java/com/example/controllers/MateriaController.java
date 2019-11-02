@@ -21,34 +21,35 @@ public class MateriaController implements IState<List<Materia>> {
 		em = Em;
 		state = this.listar();
 	}
-	
-	public MateriaController(){
+
+	public MateriaController() {
 		emf = Persistence.createEntityManagerFactory("my-persistence-unit");
 		em = emf.createEntityManager();
 	}
-	
+
 	@Override
-	public List<Materia> setState(List<Materia> listMateria){
-		try{
+	public List<Materia> setState(List<Materia> listMateria) {
+		try {
 			this.state = listMateria;
 			return this.state;
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 	};
-	
+
 	@Override
-	public List<Materia> getState(){
-    	return state;
-    };
-	
+	public List<Materia> getState() {
+		return state;
+	};
+
 	public Materia listarUm(long id) {
 		try {
+			em.getTransaction().begin();
 			Materia materia = em.find(Materia.class, id);
 			em.close();
 			return materia;
-		} catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
@@ -59,6 +60,7 @@ public class MateriaController implements IState<List<Materia>> {
 		String query = "SELECT u FROM Materia u WHERE u.id IS NOT NULL";
 		TypedQuery<Materia> tq = em.createQuery(query, Materia.class);
 		try {
+			em.getTransaction().begin();
 			materia = tq.getResultList();
 			em.close();
 		} catch (Exception e) {
@@ -68,9 +70,10 @@ public class MateriaController implements IState<List<Materia>> {
 
 		return materia;
 	}
-	
+
 	public void inserir(Materia materia) {
 		try {
+			em.getTransaction().begin();
 			em.persist(materia);
 			em.getTransaction().commit();
 			em.close();
@@ -81,6 +84,7 @@ public class MateriaController implements IState<List<Materia>> {
 
 	public void atualizar(long id, Materia mat) {
 		try {
+			em.getTransaction().begin();
 			Materia materia = em.find(Materia.class, id);
 			materia.setDescricao(mat.descricao);
 			materia.setAtiva(mat.ativa);
@@ -88,7 +92,7 @@ public class MateriaController implements IState<List<Materia>> {
 			em.merge(materia);
 			em.getTransaction().commit();
 			em.close();
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -99,11 +103,12 @@ public class MateriaController implements IState<List<Materia>> {
 		}
 
 		try {
+			em.getTransaction().begin();
 			Materia materia = em.find(Materia.class, id);
 			em.remove(materia);
 			em.getTransaction().commit();
 			em.close();
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 

@@ -12,7 +12,7 @@ import com.example.strategies.MateriaUsuarioStrategy;
 
 @Entity
 @Table(name = "materia_usuario")
-public class MateriaUsuario implements MateriaUsuarioStrategy{
+public class MateriaUsuario implements MateriaUsuarioStrategy {
 
 	public MateriaUsuario(Materia materia, Usuario usuario, String ano, String situacao) {
 		this.materia = materia;
@@ -20,26 +20,26 @@ public class MateriaUsuario implements MateriaUsuarioStrategy{
 		this.ano = ano;
 		this.situacao = situacao;
 	}
-	
+
 	public MateriaUsuario(Materia materia, Usuario usuario, String ano) {
 		this.materia = materia;
 		this.usuario = usuario;
 		this.ano = ano;
 	}
-	
+
 	public MateriaUsuario() {
 	}
-	
+
 	@Id
-    @Column(name = "id_materia_usuario", updatable = false, nullable = false)
+	@Column(name = "id_materia_usuario", updatable = false, nullable = false)
 	public long id;
-	
+
 	@JoinColumn(name = "id_materia", unique = true)
-    @OneToOne(cascade = CascadeType.ALL)
-    public Materia materia;
-	
+	@OneToOne(cascade = CascadeType.ALL)
+	public Materia materia;
+
 	@JoinColumn(name = "id_usuario", unique = true)
-    @OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL)
 	public Usuario usuario;
 
 	@Column(name = "ano")
@@ -52,7 +52,7 @@ public class MateriaUsuario implements MateriaUsuarioStrategy{
 	public long getId() {
 		return id;
 	}
-	
+
 	@Override
 	public void setId(long id) {
 		this.id = id;

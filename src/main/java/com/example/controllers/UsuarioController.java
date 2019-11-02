@@ -20,34 +20,35 @@ public class UsuarioController implements IState<List<Usuario>> {
 		em = Em;
 		state = this.listar();
 	}
-	
-	public UsuarioController(){
+
+	public UsuarioController() {
 		emf = Persistence.createEntityManagerFactory("my-persistence-unit");
 		em = emf.createEntityManager();
 	}
-	
+
 	@Override
-	public List<Usuario> setState(List<Usuario> listUsuario){
-		try{
+	public List<Usuario> setState(List<Usuario> listUsuario) {
+		try {
 			this.state = listUsuario;
 			return this.state;
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 	};
-	
+
 	@Override
-	public List<Usuario> getState(){
-    	return state;
-    };
-	
+	public List<Usuario> getState() {
+		return state;
+	};
+
 	public Usuario listarUm(long id) {
 		try {
+			em.getTransaction().begin();
 			Usuario user = em.find(Usuario.class, id);
 			em.close();
 			return user;
-		} catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
@@ -58,6 +59,7 @@ public class UsuarioController implements IState<List<Usuario>> {
 		String query = "SELECT u FROM Usuario u WHERE u.id IS NOT NULL";
 		TypedQuery<Usuario> tq = em.createQuery(query, Usuario.class);
 		try {
+			em.getTransaction().begin();
 			users = tq.getResultList();
 			em.close();
 		} catch (Exception e) {
@@ -66,9 +68,10 @@ public class UsuarioController implements IState<List<Usuario>> {
 
 		return users;
 	}
-	
+
 	public void inserir(Usuario usuario) {
 		try {
+			em.getTransaction().begin();
 			em.persist(usuario);
 			em.getTransaction().commit();
 			em.close();
@@ -79,6 +82,7 @@ public class UsuarioController implements IState<List<Usuario>> {
 
 	public void atualizar(long id, Usuario usuario) {
 		try {
+			em.getTransaction().begin();
 			Usuario user = em.find(Usuario.class, id);
 			user.setNome(usuario.nome);
 			user.setSobrenome(usuario.sobrenome);
@@ -88,7 +92,7 @@ public class UsuarioController implements IState<List<Usuario>> {
 			em.merge(user);
 			em.getTransaction().commit();
 			em.close();
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -99,11 +103,12 @@ public class UsuarioController implements IState<List<Usuario>> {
 		}
 
 		try {
+			em.getTransaction().begin();
 			Usuario user = em.find(Usuario.class, id);
 			em.remove(user);
 			em.getTransaction().commit();
 			em.close();
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 

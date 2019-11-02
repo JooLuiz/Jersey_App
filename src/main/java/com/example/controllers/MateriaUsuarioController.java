@@ -21,34 +21,35 @@ public class MateriaUsuarioController implements IState<List<MateriaUsuario>> {
 		em = Em;
 		state = this.listar();
 	}
-	
-	public MateriaUsuarioController(){
+
+	public MateriaUsuarioController() {
 		emf = Persistence.createEntityManagerFactory("my-persistence-unit");
 		em = emf.createEntityManager();
 	}
-	
+
 	@Override
-	public List<MateriaUsuario> setState(List<MateriaUsuario> listMateriaUsuario){
-		try{
+	public List<MateriaUsuario> setState(List<MateriaUsuario> listMateriaUsuario) {
+		try {
 			this.state = listMateriaUsuario;
 			return this.state;
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 	};
-	
+
 	@Override
-	public List<MateriaUsuario> getState(){
-    	return state;
-    };
-	
+	public List<MateriaUsuario> getState() {
+		return state;
+	};
+
 	public MateriaUsuario listarUm(long id) {
 		try {
+			em.getTransaction().begin();
 			MateriaUsuario materiaUsuario = em.find(MateriaUsuario.class, id);
 			em.close();
 			return materiaUsuario;
-		} catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
@@ -59,6 +60,7 @@ public class MateriaUsuarioController implements IState<List<MateriaUsuario>> {
 		String query = "SELECT u FROM MateriaUsuario u WHERE u.id IS NOT NULL";
 		TypedQuery<MateriaUsuario> tq = em.createQuery(query, MateriaUsuario.class);
 		try {
+			em.getTransaction().begin();
 			materiaUsuario = tq.getResultList();
 			em.close();
 		} catch (Exception e) {
@@ -67,9 +69,10 @@ public class MateriaUsuarioController implements IState<List<MateriaUsuario>> {
 
 		return materiaUsuario;
 	}
-	
+
 	public void inserir(MateriaUsuario materiaUsuario) {
 		try {
+			em.getTransaction().begin();
 			em.persist(materiaUsuario);
 			em.getTransaction().commit();
 			em.close();
@@ -80,6 +83,7 @@ public class MateriaUsuarioController implements IState<List<MateriaUsuario>> {
 
 	public void atualizar(long id, MateriaUsuario matUser) {
 		try {
+			em.getTransaction().begin();
 			MateriaUsuario materiaUsuario = em.find(MateriaUsuario.class, id);
 			materiaUsuario.setMateria(matUser.materia);
 			materiaUsuario.setUsuario(matUser.usuario);
@@ -88,7 +92,7 @@ public class MateriaUsuarioController implements IState<List<MateriaUsuario>> {
 			em.merge(materiaUsuario);
 			em.getTransaction().commit();
 			em.close();
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -99,11 +103,12 @@ public class MateriaUsuarioController implements IState<List<MateriaUsuario>> {
 		}
 
 		try {
+			em.getTransaction().begin();
 			MateriaUsuario materiaUsuario = em.find(MateriaUsuario.class, id);
 			em.remove(materiaUsuario);
 			em.getTransaction().commit();
 			em.close();
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 

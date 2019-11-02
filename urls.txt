@@ -1,19 +1,63 @@
 ######### USUARIO #########
 
-http://localhost:8080/myapp/usuarios
-http://localhost:8080/myapp/usuarios/usuario/1
+body: 
+{
+	"nome": "Usuario02",
+    "idade": 0,
+    "senha": "123",
+    "usuario": "User02",
+    "sobrenome": "0002"
+}
+
+http://localhost:8080/myapp/usuarios - GET
+http://localhost:8080/myapp/usuarios/usuario/1 - GET
+http://localhost:8080/myapp/usuarios/create - POST - ComBody
+http://localhost:8080/myapp/usuarios/usuario/1 - PUT - ComBody
+http://localhost:8080/myapp/usuarios/usuario/2 - DELETE
 
 ######### MATERIA #########
 
-http://localhost:8080/myapp/materias
-http://localhost:8080/myapp/materias/materia/1
+body:
+{
+    "ativa": "S",
+    "descricao": "Historia"
+}
+
+http://localhost:8080/myapp/materias - GET
+http://localhost:8080/myapp/materias/materia/1 - GET
+http://localhost:8080/myapp/materias/create - POST
+http://localhost:8080/myapp/materias/materia/1 - PUT - ComBody 
+http://localhost:8080/myapp/materias/materia/1 - DELETE - ComBody
 
 ######### MATERIA_USUARIO #########
 
+body:
+{
+    "ano": "2013",
+    "materia": 
+    { 
+        "id": 1 
+    },
+    "situacao": "A",
+    "usuario": 
+    { 
+        "id": 1 
+    }
+}
+
 http://localhost:8080/myapp/materiasUsuario
 http://localhost:8080/myapp/materiasUsuario/materiaUsuario/1
+http://localhost:8080/myapp/materiasUsuario/create
 
 ######### AULA #########
+body:
+{
+    "descricao": "Revolução Francesa",
+    "materia": {
+        "id": 1
+    },
+    "situacao": "P"
+}
 
 http://localhost:8080/myapp/aulas
 http://localhost:8080/myapp/aulas/aula/1
