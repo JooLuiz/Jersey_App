@@ -7,29 +7,30 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
-import com.example.models.Usuario;
+
+import com.example.models.Materia;
 import com.example.state.IState;
 
-public class UsuarioController implements IState<List<Usuario>> {
+public class MateriaController implements IState<List<Materia>> {
 
 	public EntityManagerFactory emf;
 	private EntityManager em;
-	private List<Usuario> state;
+	private List<Materia> state;
 
-	public UsuarioController(EntityManager Em) {
+	public MateriaController(EntityManager Em) {
 		em = Em;
 		state = this.listar();
 	}
 
-	public UsuarioController() {
+	public MateriaController() {
 		emf = Persistence.createEntityManagerFactory("my-persistence-unit");
 		em = emf.createEntityManager();
 	}
 
 	@Override
-	public List<Usuario> setState(List<Usuario> listUsuario) {
+	public List<Materia> setState(List<Materia> listMateria) {
 		try {
-			this.state = listUsuario;
+			this.state = listMateria;
 			return this.state;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -38,41 +39,42 @@ public class UsuarioController implements IState<List<Usuario>> {
 	};
 
 	@Override
-	public List<Usuario> getState() {
+	public List<Materia> getState() {
 		return state;
 	};
 
-	public Usuario listarUm(long id) {
+	public Materia listarUm(long id) {
 		try {
 			em.getTransaction().begin();
-			Usuario user = em.find(Usuario.class, id);
+			Materia materia = em.find(Materia.class, id);
 			em.close();
-			return user;
+			return materia;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
 
-	public List<Usuario> listar() {
-		List<Usuario> users = new ArrayList<>();
-		String query = "SELECT u FROM Usuario u WHERE u.id IS NOT NULL";
-		TypedQuery<Usuario> tq = em.createQuery(query, Usuario.class);
+	public List<Materia> listar() {
+		List<Materia> materia = new ArrayList<>();
+		String query = "SELECT u FROM Materia u WHERE u.id IS NOT NULL";
+		TypedQuery<Materia> tq = em.createQuery(query, Materia.class);
 		try {
 			em.getTransaction().begin();
-			users = tq.getResultList();
+			materia = tq.getResultList();
 			em.close();
 		} catch (Exception e) {
+			System.out.println(e.getMessage());
 			e.printStackTrace();
 		}
 
-		return users;
+		return materia;
 	}
 
-	public void inserir(Usuario usuario) {
+	public void inserir(Materia materia) {
 		try {
 			em.getTransaction().begin();
-			em.persist(usuario);
+			em.persist(materia);
 			em.getTransaction().commit();
 			em.close();
 		} catch (Exception e) {
@@ -80,16 +82,14 @@ public class UsuarioController implements IState<List<Usuario>> {
 		}
 	}
 
-	public void atualizar(long id, Usuario usuario) {
+	public void atualizar(long id, Materia mat) {
 		try {
 			em.getTransaction().begin();
-			Usuario user = em.find(Usuario.class, id);
-			user.setNome(usuario.nome);
-			user.setSobrenome(usuario.sobrenome);
-			user.setIdade(usuario.idade);
-			user.setUsuario(usuario.usuario);
-			user.setSenha(usuario.senha);
-			em.merge(user);
+			Materia materia = em.find(Materia.class, id);
+			materia.setDescricao(mat.descricao);
+			materia.setAtiva(mat.ativa);
+			materia.setAulas(mat.aulas);
+			em.merge(materia);
 			em.getTransaction().commit();
 			em.close();
 		} catch (Exception e) {
@@ -104,8 +104,8 @@ public class UsuarioController implements IState<List<Usuario>> {
 
 		try {
 			em.getTransaction().begin();
-			Usuario user = em.find(Usuario.class, id);
-			em.remove(user);
+			Materia materia = em.find(Materia.class, id);
+			em.remove(materia);
 			em.getTransaction().commit();
 			em.close();
 		} catch (Exception e) {

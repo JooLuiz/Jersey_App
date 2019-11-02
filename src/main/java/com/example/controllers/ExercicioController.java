@@ -7,29 +7,30 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
-import com.example.models.Usuario;
+
+import com.example.models.Exercicio;
 import com.example.state.IState;
 
-public class UsuarioController implements IState<List<Usuario>> {
+public class ExercicioController implements IState<List<Exercicio>> {
 
 	public EntityManagerFactory emf;
 	private EntityManager em;
-	private List<Usuario> state;
+	private List<Exercicio> state;
 
-	public UsuarioController(EntityManager Em) {
+	public ExercicioController(EntityManager Em) {
 		em = Em;
 		state = this.listar();
 	}
 
-	public UsuarioController() {
+	public ExercicioController() {
 		emf = Persistence.createEntityManagerFactory("my-persistence-unit");
 		em = emf.createEntityManager();
 	}
 
 	@Override
-	public List<Usuario> setState(List<Usuario> listUsuario) {
+	public List<Exercicio> setState(List<Exercicio> listExercicio) {
 		try {
-			this.state = listUsuario;
+			this.state = listExercicio;
 			return this.state;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -38,41 +39,41 @@ public class UsuarioController implements IState<List<Usuario>> {
 	};
 
 	@Override
-	public List<Usuario> getState() {
+	public List<Exercicio> getState() {
 		return state;
 	};
 
-	public Usuario listarUm(long id) {
+	public Exercicio listarUm(long id) {
 		try {
 			em.getTransaction().begin();
-			Usuario user = em.find(Usuario.class, id);
+			Exercicio exercicio = em.find(Exercicio.class, id);
 			em.close();
-			return user;
+			return exercicio;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
 
-	public List<Usuario> listar() {
-		List<Usuario> users = new ArrayList<>();
-		String query = "SELECT u FROM Usuario u WHERE u.id IS NOT NULL";
-		TypedQuery<Usuario> tq = em.createQuery(query, Usuario.class);
+	public List<Exercicio> listar() {
+		List<Exercicio> exercicio = new ArrayList<>();
+		String query = "SELECT u FROM Exercicio u WHERE u.id IS NOT NULL";
+		TypedQuery<Exercicio> tq = em.createQuery(query, Exercicio.class);
 		try {
 			em.getTransaction().begin();
-			users = tq.getResultList();
+			exercicio = tq.getResultList();
 			em.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		return users;
+		return exercicio;
 	}
 
-	public void inserir(Usuario usuario) {
+	public void inserir(Exercicio exercicio) {
 		try {
 			em.getTransaction().begin();
-			em.persist(usuario);
+			em.persist(exercicio);
 			em.getTransaction().commit();
 			em.close();
 		} catch (Exception e) {
@@ -80,16 +81,15 @@ public class UsuarioController implements IState<List<Usuario>> {
 		}
 	}
 
-	public void atualizar(long id, Usuario usuario) {
+	public void atualizar(long id, Exercicio exerc) {
 		try {
 			em.getTransaction().begin();
-			Usuario user = em.find(Usuario.class, id);
-			user.setNome(usuario.nome);
-			user.setSobrenome(usuario.sobrenome);
-			user.setIdade(usuario.idade);
-			user.setUsuario(usuario.usuario);
-			user.setSenha(usuario.senha);
-			em.merge(user);
+			Exercicio exercicio = em.find(Exercicio.class, id);
+			exercicio.setConteudo(exerc.conteudo);
+			exercicio.setPergunta(exerc.pergunta);
+			exercicio.setDificuldade(exerc.dificuldade);
+			exercicio.setResposta(exerc.resposta);
+			em.merge(exercicio);
 			em.getTransaction().commit();
 			em.close();
 		} catch (Exception e) {
@@ -104,8 +104,8 @@ public class UsuarioController implements IState<List<Usuario>> {
 
 		try {
 			em.getTransaction().begin();
-			Usuario user = em.find(Usuario.class, id);
-			em.remove(user);
+			Exercicio exercicio = em.find(Exercicio.class, id);
+			em.remove(exercicio);
 			em.getTransaction().commit();
 			em.close();
 		} catch (Exception e) {
