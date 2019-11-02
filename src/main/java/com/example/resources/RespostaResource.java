@@ -13,13 +13,16 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.example.controllers.ExercicioController;
 import com.example.controllers.RespostaController;
+import com.example.models.Exercicio;
 import com.example.models.Resposta;
 
 @Path("/respostas")
 public class RespostaResource {
 
 	public RespostaController respostaController = new RespostaController();
+	public ExercicioController exercicioController = new ExercicioController();
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -39,7 +42,15 @@ public class RespostaResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response create(Resposta resposta) {
-		respostaController.inserir(resposta);
+		Exercicio exercicio = exercicioController.listarUm(resposta.getExercicio().getId());
+
+		Resposta resp = new Resposta();
+
+		resp.setExercicio(exercicio);
+		resp.setDescricao(resposta.getDescricao());
+		resp.setCorreta(resposta.getCorreta());
+
+		respostaController.inserir(resp);
 
 		return Response.status(200).entity("Resposta created successfully !!").build();
 	}
@@ -48,7 +59,15 @@ public class RespostaResource {
 	@Path("/resposta/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response update(@PathParam("id") long id, Resposta resposta) {
-		respostaController.atualizar(id, resposta);
+		Exercicio exercicio = exercicioController.listarUm(resposta.getExercicio().getId());
+
+		Resposta resp = new Resposta();
+
+		resp.setExercicio(exercicio);
+		resp.setDescricao(resposta.getDescricao());
+		resp.setCorreta(resposta.getCorreta());
+
+		respostaController.atualizar(id, resp);
 		return Response.status(200).entity("Resposta update successfully !!").build();
 	}
 

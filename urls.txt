@@ -1,4 +1,6 @@
-######### USUARIO #########
+========================== DOCUMENTAÇÂO DE COMO FAZER AS REQUISIÇÔES ==========================
+
+########################## USUARIO ##########################
 
 body: 
 {
@@ -15,7 +17,7 @@ http://localhost:8080/myapp/usuarios/create - POST - ComBody
 http://localhost:8080/myapp/usuarios/usuario/1 - PUT - ComBody
 http://localhost:8080/myapp/usuarios/usuario/2 - DELETE
 
-######### MATERIA #########
+########################## MATERIA ##########################
 
 body:
 {
@@ -29,7 +31,7 @@ http://localhost:8080/myapp/materias/create - POST
 http://localhost:8080/myapp/materias/materia/1 - PUT - ComBody 
 http://localhost:8080/myapp/materias/materia/1 - DELETE - ComBody
 
-######### MATERIA_USUARIO #########
+########################## MATERIA_USUARIO ##########################
 
 body:
 {
@@ -45,11 +47,14 @@ body:
     }
 }
 
-http://localhost:8080/myapp/materiasUsuario
-http://localhost:8080/myapp/materiasUsuario/materiaUsuario/1
-http://localhost:8080/myapp/materiasUsuario/create
+http://localhost:8080/myapp/materiasUsuario - GET
+http://localhost:8080/myapp/materiasUsuario/materiaUsuario/1 - GET
+http://localhost:8080/myapp/materiasUsuario/create - POST
+http://localhost:8080/myapp/materiasUsuario/materiaUsuario/1 - PUT - ComBody 
+http://localhost:8080/myapp/materiasUsuario/materiaUsuario/1 - DELETE - ComBody
 
-######### AULA #########
+########################## AULA ##########################
+
 body:
 {
     "descricao": "Revolução Francesa",
@@ -59,20 +64,46 @@ body:
     "situacao": "P"
 }
 
-http://localhost:8080/myapp/aulas
-http://localhost:8080/myapp/aulas/aula/1
+http://localhost:8080/myapp/aulas - GET
+http://localhost:8080/myapp/aulas/aula/1 - GET
+http://localhost:8080/myapp/aulas/create - POST
+http://localhost:8080/myapp/aulas/aula/1 - PUT - ComBody 
+http://localhost:8080/myapp/aulas/aula/1 - DELETE - ComBody
 
-######### CONTEUDO #########
+########################## CONTEUDO ##########################
 
-http://localhost:8080/myapp/conteudos
-http://localhost:8080/myapp/conteudos/conteudo/1
+body:
+{
+    "conteudo": "Tudo começou com uma revolta da peble contra os direitos da realeza.",
+    "aula": {
+        "id": 1
+    }
+}
 
-######### EXERCICIO #########
+http://localhost:8080/myapp/conteudos - GET
+http://localhost:8080/myapp/conteudos/conteudo/1 - GET
+http://localhost:8080/myapp/conteudos/create - POST
+http://localhost:8080/myapp/conteudos/conteudo/1 - PUT - ComBody 
+http://localhost:8080/myapp/conteudos/conteudo/1 - DELETE - ComBody
 
-http://localhost:8080/myapp/exercicios
-http://localhost:8080/myapp/exercicios/exercicio/1
+########################## EXERCICIO ##########################
 
-######### RESPOSTA #########
+body:
+{
+    "pergunta": "Em que ano Iniciou a Revolução francesa?",
+    "conteudo": {
+        "id": 1
+    },
+    "dificuldade": "D"
+}
+
+http://localhost:8080/myapp/exercicios - GET
+http://localhost:8080/myapp/exercicios/exercicio/1 - GET
+http://localhost:8080/myapp/exercicios/create - POST
+http://localhost:8080/myapp/exercicios/exercicio/1 - PUT - ComBody 
+http://localhost:8080/myapp/exercicios/exercicio/1 - DELETE - ComBody
+
+########################## RESPOSTA ##########################
 
 http://localhost:8080/myapp/respostas
 http://localhost:8080/myapp/respostas/resposta/1

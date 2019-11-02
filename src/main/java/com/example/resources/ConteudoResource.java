@@ -13,13 +13,16 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.example.controllers.AulaController;
 import com.example.controllers.ConteudoController;
+import com.example.models.Aula;
 import com.example.models.Conteudo;
 
 @Path("/conteudos")
 public class ConteudoResource {
 
 	public ConteudoController conteudoController = new ConteudoController();
+	public AulaController aulaController = new AulaController();
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -39,7 +42,14 @@ public class ConteudoResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response create(Conteudo conteudo) {
-		conteudoController.inserir(conteudo);
+		Aula aula = aulaController.listarUm(conteudo.getAula().getId());
+
+		Conteudo cont = new Conteudo();
+
+		cont.setAula(aula);
+		cont.setConteudo(conteudo.getConteudo());
+
+		conteudoController.inserir(cont);
 
 		return Response.status(200).entity("Conteudo created successfully !!").build();
 	}
@@ -48,7 +58,14 @@ public class ConteudoResource {
 	@Path("/conteudo/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response update(@PathParam("id") long id, Conteudo conteudo) {
-		conteudoController.atualizar(id, conteudo);
+		Aula aula = aulaController.listarUm(conteudo.getAula().getId());
+
+		Conteudo cont = new Conteudo();
+
+		cont.setAula(aula);
+		cont.setConteudo(conteudo.getConteudo());
+
+		conteudoController.atualizar(id, cont);
 		return Response.status(200).entity("Conteudo update successfully !!").build();
 	}
 
