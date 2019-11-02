@@ -64,7 +64,17 @@ public class MateriaUsuarioResource {
 	@Path("/materiaUsuario/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response update(@PathParam("id") long id, MateriaUsuario materiaUsuario) {
-		materiaUsuarioController.atualizar(id, materiaUsuario);
+		Materia mat = materiaController.listarUm(materiaUsuario.getMateria().getId());
+		Usuario usr = usuarioController.listarUm(materiaUsuario.getUsuario().getId());
+
+		MateriaUsuario matusr = new MateriaUsuario();
+
+		matusr.setMateria(mat);
+		matusr.setAno(materiaUsuario.getAno());
+		matusr.setSituacao(materiaUsuario.getSituacao());
+		matusr.setUsuario(usr);
+
+		materiaUsuarioController.atualizar(id, matusr);
 		return Response.status(200).entity("MateriaUsuario update successfully !!").build();
 	}
 
