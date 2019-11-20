@@ -9,39 +9,24 @@ import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 
 import com.example.models.Aula;
-import com.example.state.IState;
+import com.example.state.AulaState;
 
-public class AulaController implements IState<List<Aula>> {
+public class AulaController {
 
 	public EntityManagerFactory emf;
 	private EntityManager em;
-	private List<Aula> state;
+	public AulaState aulaState;
 
 	public AulaController(EntityManager Em) {
 		em = Em;
-		state = this.listar();
+		aulaState = new AulaState();
 	}
 
 	public AulaController() {
 		emf = Persistence.createEntityManagerFactory("my-persistence-unit");
 		em = emf.createEntityManager();
+		aulaState = new AulaState();
 	}
-
-	@Override
-	public List<Aula> setState(List<Aula> listAula) {
-		try {
-			this.state = listAula;
-			return this.state;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	};
-
-	@Override
-	public List<Aula> getState() {
-		return state;
-	};
 
 	public Aula listarUm(long id) {
 		try {
@@ -83,7 +68,9 @@ public class AulaController implements IState<List<Aula>> {
 
 	public void atualizar(long id, Aula al) {
 		try {
-			em.getTransaction().begin();
+			if (!em.getTransaction().isActive()) {
+				em.getTransaction().begin();
+			}
 			Aula aula = em.find(Aula.class, id);
 			aula.setMateria(al.materia);
 			aula.setDescricao(al.descricao);
@@ -91,7 +78,9 @@ public class AulaController implements IState<List<Aula>> {
 			aula.setConteudos(al.conteudos);
 			em.merge(aula);
 			em.getTransaction().commit();
-			em.close();
+			if (em.getTransaction().isActive()) {
+				em.close();
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -111,7 +100,50 @@ public class AulaController implements IState<List<Aula>> {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
 
+	public Aula iniciarAula(long id) {
+		if (id == 0) {
+			throw new IllegalStateException("Id da conta nao deve ser nula.");
+		}
+
+		if (!em.getTransaction().isActive()) {
+			em.getTransaction().begin();
+		}
+		Aula aula = em.find(Aula.class, id);
+		try {
+			Aula initiatedAula = aulaState.iniciarAula(aula);
+			aula.setSituacao(initiatedAula.getSituacao());
+			return aula;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if (em.getTransaction().isActive()) {
+			em.close();
+		}
+		return aula;
+	}
+
+	public Aula concluirAula(long id) {
+		if (id == 0) {
+			throw new IllegalStateException("Id da conta nao deve ser nula.");
+		}
+
+		if (!em.getTransaction().isActive()) {
+			em.getTransaction().begin();
+		}
+		Aula aula = em.find(Aula.class, id);
+		try {
+			Aula initiatedAula = aulaState.concluirAula(aula);
+			aula.setSituacao(initiatedAula.getSituacao());
+			return aula;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if (em.getTransaction().isActive()) {
+			em.close();
+		}
+		return aula;
 	}
 
 }

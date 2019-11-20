@@ -77,4 +77,22 @@ public class AulaResource {
 		aulaController.excluir(id);
 		return Response.status(202).entity("Aula deleted successfully !!").build();
 	}
+
+	@POST
+	@Path("aula/iniciarAula/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Aula iniciarAula(@PathParam("id") int id) {
+		Aula aulaIniciada = aulaController.iniciarAula(id);
+		aulaController.atualizar(id, aulaIniciada);
+		return aulaController.listarUm(id);
+	}
+
+	@POST
+	@Path("aula/concluirAula/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Aula concluirAula(@PathParam("id") int id) {
+		Aula aulaIniciada = aulaController.concluirAula(id);
+		aulaController.atualizar(id, aulaIniciada);
+		return aulaController.listarUm(id);
+	}
 }

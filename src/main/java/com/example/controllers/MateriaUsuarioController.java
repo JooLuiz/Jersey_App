@@ -9,39 +9,20 @@ import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 
 import com.example.models.MateriaUsuario;
-import com.example.state.IState;
 
-public class MateriaUsuarioController implements IState<List<MateriaUsuario>> {
+public class MateriaUsuarioController {
 
 	public EntityManagerFactory emf;
 	private EntityManager em;
-	private List<MateriaUsuario> state;
 
 	public MateriaUsuarioController(EntityManager Em) {
 		em = Em;
-		state = this.listar();
 	}
 
 	public MateriaUsuarioController() {
 		emf = Persistence.createEntityManagerFactory("my-persistence-unit");
 		em = emf.createEntityManager();
 	}
-
-	@Override
-	public List<MateriaUsuario> setState(List<MateriaUsuario> listMateriaUsuario) {
-		try {
-			this.state = listMateriaUsuario;
-			return this.state;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	};
-
-	@Override
-	public List<MateriaUsuario> getState() {
-		return state;
-	};
 
 	public MateriaUsuario listarUm(long id) {
 		try {

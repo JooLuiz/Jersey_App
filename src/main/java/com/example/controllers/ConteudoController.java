@@ -9,39 +9,20 @@ import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 
 import com.example.models.Conteudo;
-import com.example.state.IState;
 
-public class ConteudoController implements IState<List<Conteudo>> {
+public class ConteudoController {
 
 	public EntityManagerFactory emf;
 	private EntityManager em;
-	private List<Conteudo> state;
 
 	public ConteudoController(EntityManager Em) {
 		em = Em;
-		state = this.listar();
 	}
 
 	public ConteudoController() {
 		emf = Persistence.createEntityManagerFactory("my-persistence-unit");
 		em = emf.createEntityManager();
 	}
-
-	@Override
-	public List<Conteudo> setState(List<Conteudo> listConteudo) {
-		try {
-			this.state = listConteudo;
-			return this.state;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	};
-
-	@Override
-	public List<Conteudo> getState() {
-		return state;
-	};
 
 	public Conteudo listarUm(long id) {
 		try {

@@ -9,39 +9,20 @@ import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 
 import com.example.models.Exercicio;
-import com.example.state.IState;
 
-public class ExercicioController implements IState<List<Exercicio>> {
+public class ExercicioController {
 
 	public EntityManagerFactory emf;
 	private EntityManager em;
-	private List<Exercicio> state;
 
 	public ExercicioController(EntityManager Em) {
 		em = Em;
-		state = this.listar();
 	}
 
 	public ExercicioController() {
 		emf = Persistence.createEntityManagerFactory("my-persistence-unit");
 		em = emf.createEntityManager();
 	}
-
-	@Override
-	public List<Exercicio> setState(List<Exercicio> listExercicio) {
-		try {
-			this.state = listExercicio;
-			return this.state;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	};
-
-	@Override
-	public List<Exercicio> getState() {
-		return state;
-	};
 
 	public Exercicio listarUm(long id) {
 		try {
