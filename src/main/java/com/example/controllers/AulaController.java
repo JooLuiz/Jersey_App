@@ -72,10 +72,10 @@ public class AulaController {
 				em.getTransaction().begin();
 			}
 			Aula aula = em.find(Aula.class, id);
-			aula.setMateria(al.materia);
-			aula.setDescricao(al.descricao);
-			aula.setSituacao(al.situacao);
-			aula.setConteudos(al.conteudos);
+			aula.setMateria(al.getMateria());
+			aula.setDescricao(al.getDescricao());
+			aula.setSituacao(al.getSituacao());
+			aula.setConteudos(al.getConteudos());
 			em.merge(aula);
 			em.getTransaction().commit();
 			if (em.getTransaction().isActive()) {

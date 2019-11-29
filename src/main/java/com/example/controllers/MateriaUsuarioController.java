@@ -67,10 +67,10 @@ public class MateriaUsuarioController {
 		try {
 			em.getTransaction().begin();
 			MateriaUsuario materiaUsuario = em.find(MateriaUsuario.class, id);
-			materiaUsuario.setMateria(matUser.materia);
-			materiaUsuario.setUsuario(matUser.usuario);
-			materiaUsuario.setAno(matUser.ano);
-			materiaUsuario.setSituacao(matUser.situacao);
+			materiaUsuario.setMateria(matUser.getMateria());
+			materiaUsuario.setUsuario(matUser.getUsuario());
+			materiaUsuario.setAno(matUser.getAno());
+			materiaUsuario.setSituacao(matUser.getSituacao());
 			em.merge(materiaUsuario);
 			em.getTransaction().commit();
 			em.close();

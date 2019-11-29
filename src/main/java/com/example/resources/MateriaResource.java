@@ -48,6 +48,7 @@ public class MateriaResource {
 	@Path("/materia/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response update(@PathParam("id") long id, Materia materia) {
+		System.out.println("OIIIIIIIIIIIIIII");
 		materiaController.atualizar(id, materia);
 		return Response.status(200).entity("Materia update successfully !!").build();
 	}

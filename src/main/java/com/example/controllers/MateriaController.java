@@ -67,9 +67,9 @@ public class MateriaController {
 		try {
 			em.getTransaction().begin();
 			Materia materia = em.find(Materia.class, id);
-			materia.setDescricao(mat.descricao);
-			materia.setAtiva(mat.ativa);
-			materia.setAulas(mat.aulas);
+			materia.setDescricao(mat.getDescricao());
+			materia.setAtiva(mat.getAtiva());
+			materia.setAulas(mat.getAulas());
 			em.merge(materia);
 			em.getTransaction().commit();
 			em.close();

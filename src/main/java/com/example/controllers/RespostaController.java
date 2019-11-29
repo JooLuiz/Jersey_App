@@ -66,9 +66,9 @@ public class RespostaController {
 		try {
 			em.getTransaction().begin();
 			Resposta resposta = em.find(Resposta.class, id);
-			resposta.setExercicio(resp.exercicio);
-			resposta.setDescricao(resp.descricao);
-			resposta.setCorreta(resp.correta);
+			resposta.setExercicio(resp.getExercicio());
+			resposta.setDescricao(resp.getDescricao());
+			resposta.setCorreta(resp.getCorreta());
 			em.merge(resposta);
 			em.getTransaction().commit();
 			em.close();

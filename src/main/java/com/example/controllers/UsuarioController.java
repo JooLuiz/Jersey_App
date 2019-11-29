@@ -63,13 +63,16 @@ public class UsuarioController {
 
 	public void atualizar(long id, Usuario usuario) {
 		try {
+			System.out.println("to aqui");
+
+			
 			em.getTransaction().begin();
 			Usuario user = em.find(Usuario.class, id);
-			user.setNome(usuario.nome);
-			user.setSobrenome(usuario.sobrenome);
-			user.setIdade(usuario.idade);
-			user.setUsuario(usuario.usuario);
-			user.setSenha(usuario.senha);
+			user.setNome(usuario.getNome());
+			user.setSobrenome(usuario.getSobrenome());
+			user.setIdade(usuario.getIdade());
+			user.setUsuario(usuario.getUsuario());
+			user.setSenha(usuario.getSenha());
 			em.merge(user);
 			em.getTransaction().commit();
 			em.close();

@@ -66,10 +66,10 @@ public class ExercicioController {
 		try {
 			em.getTransaction().begin();
 			Exercicio exercicio = em.find(Exercicio.class, id);
-			exercicio.setConteudo(exerc.conteudo);
-			exercicio.setPergunta(exerc.pergunta);
-			exercicio.setDificuldade(exerc.dificuldade);
-			exercicio.setResposta(exerc.resposta);
+			exercicio.setConteudo(exerc.getConteudo());
+			exercicio.setPergunta(exerc.getPergunta());
+			exercicio.setDificuldade(exerc.getDificuldade());
+			exercicio.setResposta(exerc.getResposta());
 			em.merge(exercicio);
 			em.getTransaction().commit();
 			em.close();

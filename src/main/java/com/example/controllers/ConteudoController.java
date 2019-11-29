@@ -66,9 +66,9 @@ public class ConteudoController {
 		try {
 			em.getTransaction().begin();
 			Conteudo conteudo = em.find(Conteudo.class, id);
-			conteudo.setAula(cont.aula);
-			conteudo.setConteudo(cont.conteudo);
-			conteudo.setExercicios(cont.exercicios);
+			conteudo.setAula(cont.getAula());
+			conteudo.setConteudo(cont.getConteudo());
+			conteudo.setExercicios(cont.getExercicios());
 			em.merge(conteudo);
 			em.getTransaction().commit();
 			em.close();
